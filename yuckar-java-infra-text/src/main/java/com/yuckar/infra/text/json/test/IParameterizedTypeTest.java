@@ -1,0 +1,17 @@
+package com.yuckar.infra.text.json.test;
+
+import org.slf4j.Logger;
+
+import com.yuckar.infra.common.logger.LoggerUtils;
+
+abstract class IParameterizedTypeTest<T> {
+
+	Logger logger = LoggerUtils.logger(getClass());
+
+	public void test1(T bean) {
+		logger.info("{}", bean);
+	}
+
+	public abstract void test2(T bean);
+
+}

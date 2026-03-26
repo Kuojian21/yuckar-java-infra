@@ -1,0 +1,6 @@
+com.yuckar.infra.runner.mq.kafka.server.KafkaRunnerServer
+com.yuckar.infra.runner.mq.rocket.server.RocketRunnerServer
+com.yuckar.infra.runner.rpc.grpc.server.GrpcRunnerServer
+com.yuckar.infra.runner.sch.ksch.server.KschRunnerServer
+com.yuckar.infra.runner.sch.quatz.server.QuatzRunnerServer
+com.yuckar.infra.runner.simple.server.SimpleRunnerServer
