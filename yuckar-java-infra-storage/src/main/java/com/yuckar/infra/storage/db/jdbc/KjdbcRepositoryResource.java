@@ -1,25 +1,15 @@
 package com.yuckar.infra.storage.db.jdbc;
 
-import java.util.Map;
-
 import com.annimon.stream.function.Function;
-import com.google.common.collect.Maps;
-import com.yuckar.infra.register.resource.IResource;
+import com.yuckar.infra.register.resource.IDatabaseResource;
 
-public interface KjdbcRepositoryResource<I> extends KjdbcResource<I>, IResource<I, KjdbcHolder> {
-
-	Map<KjdbcRepositoryResource<?>, KjdbcRepository> repos = Maps.newConcurrentMap();
+public interface KjdbcRepositoryResource<I> extends KjdbcResource<I>, IDatabaseResource<I, KjdbcHolder> {
 
 	default Function<I, KjdbcHolder> mapper() {
 		return config -> KjdbcHolder.of(dataSource(config), tag(config));
 	}
 
 	default KjdbcRepository getRepository() {
-		return repos.computeIfAbsent(this, key -> new KjdbcRepository() {
-			@Override
-			public KjdbcHolder holder(boolean master) {
-				return KjdbcRepositoryResource.this.get();
-			}
-		});
+		return KjdbcRepositoryResourceHolder.getRepository(this);
 	}
 }

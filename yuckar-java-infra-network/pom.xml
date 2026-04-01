@@ -9,25 +9,14 @@
 	</parent>
 	<artifactId>yuckar-java-infra-network</artifactId>
 
-	<properties>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-executor</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-text</artifactId>
+			<artifactId>yuckar-java-infra-common</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
 			<artifactId>yuckar-java-infra-trace</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-thread</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
 		<dependency>
@@ -86,11 +75,11 @@
 			<version>4.1.93.Final</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
+		<!-- Source: https://mvnrepository.com/artifact/com.github.mwiede/jsch -->
 		<dependency>
-			<groupId>com.jcraft</groupId>
+			<groupId>com.github.mwiede</groupId>
 			<artifactId>jsch</artifactId>
-			<version>0.1.55</version>
+			<version>2.27.9</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit -->

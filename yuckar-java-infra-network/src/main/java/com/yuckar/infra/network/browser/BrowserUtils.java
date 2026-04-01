@@ -3,8 +3,8 @@ package com.yuckar.infra.network.browser;
 import org.htmlunit.WebClient;
 import org.slf4j.Logger;
 
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.text.json.ConfigUtils;
 
 public class BrowserUtils {
 

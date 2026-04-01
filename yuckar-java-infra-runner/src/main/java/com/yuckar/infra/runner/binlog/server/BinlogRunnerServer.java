@@ -9,13 +9,13 @@ import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.common.term.TermHelper;
 import com.yuckar.infra.common.utils.RunUtils;
 import com.yuckar.infra.register.Register;
+import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
 import com.yuckar.infra.runner.binlog.BinlogRunner;
 import com.yuckar.infra.runner.binlog.holder.BinlogRunnerHolder;
 import com.yuckar.infra.runner.binlog.info.BinlogLoginInfo;
 import com.yuckar.infra.runner.binlog.info.BinlogStatusInfo;
 import com.yuckar.infra.runner.binlog.listener.BinlogEventListener;
 import com.yuckar.infra.runner.binlog.listener.BinlogLifecycleListener;
-import com.yuckar.infra.runner.common.RunnerConstants;
 import com.yuckar.infra.runner.server.AbstractRunnerServer;
 
 public class BinlogRunnerServer extends AbstractRunnerServer<BinlogRunner> {
@@ -26,7 +26,7 @@ public class BinlogRunnerServer extends AbstractRunnerServer<BinlogRunner> {
 	@Override
 	protected void doRun(BinlogRunner runner) throws IllegalStateException, IOException {
 		BinlogRunnerHolder holder = BinlogRunnerHolder.of(runner);
-		String path = RunnerConstants.register_binlog + runner.ID() + "/login";
+		String path = RegisterNamespaceUtils.binlog(runner.ID() + "/login");
 		Register<BinlogLoginInfo> register = holder.context().getRegister(BinlogLoginInfo.class);
 
 		LazySupplier<BinaryLogClient> client_supplier = LazySupplier.wrap(() -> {

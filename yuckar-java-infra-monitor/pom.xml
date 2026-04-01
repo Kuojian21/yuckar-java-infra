@@ -11,11 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-perf</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-text</artifactId>
+			<artifactId>yuckar-java-infra-common</artifactId>
 		</dependency>
 		<!-- Source:
 		https://mvnrepository.com/artifact/com.github.oshi/oshi-core -->

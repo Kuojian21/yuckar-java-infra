@@ -12,10 +12,10 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import com.annimon.stream.Stream;
 import com.google.common.collect.Maps;
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.storage.jedis.JedisInfo;
 import com.yuckar.infra.storage.jedis.JedisShardingInfo;
 import com.yuckar.infra.storage.jedis.KjedisFactory;
-import com.yuckar.infra.text.json.ConfigUtils;
 
 import redis.clients.jedis.Connection;
 import redis.clients.jedis.DefaultJedisClientConfig;

@@ -12,13 +12,13 @@ public class NoDLock extends AbstractDLock {
 
 	@Override
 	public boolean tryLock(long timeout, TimeUnit unit) {
-		logger.debug("nolock-key:{}", this.key());
+		logger.debug("tryLock key:{} timeout:{} unit:{}", key(), timeout, unit);
 		return true;
 	}
 
 	@Override
 	public void unlock() {
-
+		logger.debug("unlock key:{}!!!", key());
 	}
 
 }

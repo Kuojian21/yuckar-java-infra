@@ -11,11 +11,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.annimon.stream.Optional;
 import com.google.common.util.concurrent.Uninterruptibles;
+import com.yuckar.infra.common.bean.simple.Pair;
 import com.yuckar.infra.common.file.utils.FileUtils;
-import com.yuckar.infra.common.info.Pair;
 import com.yuckar.infra.common.utils.RunUtils;
 import com.yuckar.infra.dlock.AbstractDLock;
-import com.yuckar.infra.register.utils.RegisterUtils;
+import com.yuckar.infra.register.utils.RegisterFileUtils;
 
 public class FileDLock extends AbstractDLock {
 
@@ -34,7 +34,7 @@ public class FileDLock extends AbstractDLock {
 	public FileDLock(String key, String workspace) {
 		super(key);
 		this.workspace = workspace;
-		this.file = new File(RegisterUtils.toFile(this.workspace, key()) + File.separator + "main.lock");
+		this.file = new File(RegisterFileUtils.toFile(this.workspace, key()) + File.separator + "main.lock");
 		FileUtils.createFileIfNoExists(file, "DLock");
 		this.raf = RunUtils.throwing(() -> new RandomAccessFile(file, "rw"));
 		this.channel = raf.getChannel();
@@ -59,14 +59,15 @@ public class FileDLock extends AbstractDLock {
 				do {
 					FileLock flock = channel.tryLock();
 					if (flock == null) {
-						Uninterruptibles.sleepUninterruptibly(
-								Math.max(0L,
-										Math.min(timestamp - System.currentTimeMillis(), TimeUnit.SECONDS.toMillis(6))),
+						Uninterruptibles.sleepUninterruptibly(Math.max(0L,
+								Math.min(timestamp - System.currentTimeMillis(), TimeUnit.SECONDS.toMillis(10))),
 								TimeUnit.MILLISECONDS);
+						logger.debug("tryLock key:{} timeout:{} unit:{} false", key(), timeout, unit);
 					} else {
 						fileLock.set(Pair.pair(flock, new AtomicInteger(1)));
 						raf.writeUTF("PID:" + ProcessHandle.current().pid());
 						raf.getFD().sync();
+						logger.debug("tryLock key:{} timeout:{} unit:{} true", key(), timeout, unit);
 						return true;
 					}
 				} while (System.currentTimeMillis() <= timestamp);
@@ -89,6 +90,7 @@ public class FileDLock extends AbstractDLock {
 					pair.getKey().release();
 					fileLock.set(null);
 					lock.unlock();
+					logger.debug("unlock key:{}!!!", key());
 				}
 			}
 		});

@@ -8,7 +8,7 @@ import com.yuckar.infra.common.logger.LoggerUtils;
 
 public abstract class AbstractDLock implements DLock {
 
-	protected final Logger logger = LoggerUtils.logger(getClass());
+	protected Logger logger = LoggerUtils.logger(getClass());
 
 	private final String key;
 
@@ -18,9 +18,7 @@ public abstract class AbstractDLock implements DLock {
 
 	@Override
 	public void lock() {
-		if (!tryLock(36_500, TimeUnit.DAYS)) {
-			throw new RuntimeException("failure while trying to acquire lock: " + key);
-		}
+		tryLock(-1, null);
 	}
 
 	@Override

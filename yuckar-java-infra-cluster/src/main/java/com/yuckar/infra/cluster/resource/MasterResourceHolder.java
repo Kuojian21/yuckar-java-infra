@@ -21,7 +21,7 @@ class MasterResourceHolder {
 			Register<C> register = RegisterFactory.getContext(info.getClass())
 					.getRegister((Class<C>) TypeMapperUtils.mapper(info.getClass()).get(MasterResource.class)
 							.get(MasterResource.class.getTypeParameters()[2]));
-			return MasterFactory.master(register, info.ID(), info.mapper(), info::close);
+			return MasterFactory.master(register, info.path(), info.mapper(), info::close);
 		})).get();
 	}
 

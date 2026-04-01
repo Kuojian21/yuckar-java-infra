@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
-import com.yuckar.infra.executor.lazy.LazyExecutor;
+import com.yuckar.infra.common.executor.LazyExecutor;
 
 public class HdfsRepository extends LazyExecutor<FileSystem, Configuration> {
 

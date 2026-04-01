@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 import org.apache.commons.net.ftp.FTPClient;
 
-import com.yuckar.infra.executor.pool.PoolExecutor;
+import com.yuckar.infra.common.executor.PoolExecutor;
 
 public abstract class KftpBean<B extends FTPClient, I extends KftpBeanInfo<B>> extends PoolExecutor<B, I> {
 

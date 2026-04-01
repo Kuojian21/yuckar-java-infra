@@ -12,7 +12,7 @@ public interface ClusterResource<R, I, C extends ClusterInfo<I>> {
 
 	Logger logger = LoggerUtils.logger(ClusterResource.class);
 
-	String ID();
+	String path();
 
 	Function<InstanceInfo<I>, R> mapper();
 

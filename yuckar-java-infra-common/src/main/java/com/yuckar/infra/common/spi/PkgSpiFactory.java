@@ -7,7 +7,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.info.Pair;
+import com.yuckar.infra.common.bean.simple.Pair;
 
 public class PkgSpiFactory<T extends PkgSpi> {
 

@@ -6,9 +6,9 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.storage.db.jdbc.KjdbcResource;
 import com.yuckar.infra.storage.db.utils.DB_tag_utils;
-import com.yuckar.infra.text.json.ConfigUtils;
 
 @SuppressWarnings("unchecked")
 public interface DruidBaseResource extends KjdbcResource<Object> {

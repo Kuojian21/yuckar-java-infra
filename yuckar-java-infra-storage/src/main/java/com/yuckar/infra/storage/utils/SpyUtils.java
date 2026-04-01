@@ -5,8 +5,8 @@ import java.net.InetSocketAddress;
 import java.util.List;
 
 import com.annimon.stream.Stream;
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.storage.spy.SpyInfo;
-import com.yuckar.infra.text.json.ConfigUtils;
 
 import net.spy.memcached.ConnectionFactoryBuilder;
 import net.spy.memcached.MemcachedClient;

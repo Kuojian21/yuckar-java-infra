@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import com.google.common.base.Stopwatch;
 import com.yuckar.infra.common.logger.LoggerUtils;
 import com.yuckar.infra.common.number.N_humanUtils;
+import com.yuckar.infra.common.perf.utils.PerfUtils;
 import com.yuckar.infra.common.trace.TraceIDUtils;
-import com.yuckar.infra.perf.utils.PerfUtils;
 import com.yuckar.infra.runner.simple.SimpleRunner;
 
 public class SimpleRunnerRunnable implements Runnable {

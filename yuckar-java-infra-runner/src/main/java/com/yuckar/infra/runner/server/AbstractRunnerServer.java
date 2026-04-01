@@ -15,8 +15,8 @@ import com.yuckar.infra.common.logger.LoggerUtils;
 import com.yuckar.infra.common.utils.RunUtils;
 import com.yuckar.infra.dlock.DLock;
 import com.yuckar.infra.dlock.context.DLockFactory;
+import com.yuckar.infra.dlock.utils.DLockNamespaceUtils;
 import com.yuckar.infra.runner.Runner;
-import com.yuckar.infra.runner.common.RunnerConstants;
 import com.yuckar.infra.server.args.ServerArgs;
 
 public abstract class AbstractRunnerServer<R extends Runner> implements RunnerServer<R> {
@@ -26,7 +26,7 @@ public abstract class AbstractRunnerServer<R extends Runner> implements RunnerSe
 
 	protected final Logger logger = LoggerUtils.logger(this.getClass());
 	protected final LazySupplier<CommandLine> commandLine = LazySupplier
-			.wrap(() -> ServerArgs.args().commandLine(this.args_prefix(), this.args_options()));
+			.wrap(() -> ServerArgs.args().options(this.args_prefix(), this.args_options()));
 	private final LazyRunnable init = LazyRunnable.wrap(AbstractRunnerServer.this::init);
 
 	@Override
@@ -35,7 +35,7 @@ public abstract class AbstractRunnerServer<R extends Runner> implements RunnerSe
 		THREAD_FACTORY.newThread(() -> {
 			if (nlock() && StringUtils.isNotEmpty(runner.ID())) {
 				DLock lock = DLockFactory.getContext(runner.getClass())
-						.getLock(RunnerConstants.dlock + runner.module() + "/" + runner.ID());
+						.getLock(DLockNamespaceUtils.runner(runner.module() + "/" + runner.ID()));
 				lock.lock();
 			}
 			RunUtils.throwing(() -> this.doRun(runner));

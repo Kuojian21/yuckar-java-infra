@@ -20,9 +20,9 @@ class IResourceHolder {
 			Register<I> register = RegisterFactory.getContext(info.getClass()).getRegister((Class<I>) TypeMapperUtils
 					.mapper(info.getClass()).get(IResource.class).get(IResource.class.getTypeParameters()[0]));
 			if (resources.putIfAbsent(info, LazySupplier.wrap(() -> {
-				return info.mapper().apply(register.get(info.ID()));
+				return info.mapper().apply(register.get(info.path()));
 			})) == null) {
-				register.addListener(info.ID(), event -> {
+				register.addListener(info.path(), event -> {
 					refresh(info);
 				});
 			}

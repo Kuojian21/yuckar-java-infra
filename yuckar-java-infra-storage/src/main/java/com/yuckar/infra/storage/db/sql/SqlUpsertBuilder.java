@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.annimon.stream.Stream;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.info.Pair;
+import com.yuckar.infra.common.bean.simple.Pair;
 import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.storage.db.model.KdbProperty;
 

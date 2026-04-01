@@ -10,23 +10,27 @@ import org.apache.curator.framework.recipes.cache.CuratorCacheListener;
 import org.apache.zookeeper.CreateMode;
 
 import com.google.common.collect.Maps;
+import com.yuckar.infra.common.json.JsonUtils;
 import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.register.Register;
 import com.yuckar.infra.register.RegisterListener;
 import com.yuckar.infra.register.group.AbstractGroupReigster;
 import com.yuckar.infra.register.impl.CuratorRegister;
-import com.yuckar.infra.text.json.JsonUtils;
 
 public class CuratorGroupRegister<V, I> extends AbstractGroupReigster<V, I> {
 
 	private final Register<V> vregister;
+	private final Register<I> cregister;
 	private final Map<String, LazySupplier<CuratorCache>> caches = Maps.newConcurrentMap();
 	private final CuratorFramework curator;
 
-	public CuratorGroupRegister(Class<V> vclazz, Class<I> clazz, CuratorFramework curator) {
-		super(new CuratorRegister<>(clazz, curator));
+	public CuratorGroupRegister(CuratorFramework curator, Class<V> vclazz, Class<I> iclazz) {
 		this.curator = curator;
-		this.vregister = new CuratorRegister<>(vclazz, curator);
+		this.vregister = new CuratorRegister<>(curator, vclazz);
+		this.cregister = new CuratorRegister<>(curator, iclazz, key -> {
+			String pkey = key.substring(0, key.lastIndexOf("/"));
+			return CuratorGroupRegister.this.cgetData(pkey).clisteners();
+		});
 	}
 
 	@Override
@@ -75,6 +79,11 @@ public class CuratorGroupRegister<V, I> extends AbstractGroupReigster<V, I> {
 	@Override
 	public void addListener(String key, RegisterListener<V> listener) {
 		this.vregister.addListener(key, listener);
+	}
+
+	@Override
+	protected Register<I> cregister() {
+		return this.cregister;
 	}
 
 }

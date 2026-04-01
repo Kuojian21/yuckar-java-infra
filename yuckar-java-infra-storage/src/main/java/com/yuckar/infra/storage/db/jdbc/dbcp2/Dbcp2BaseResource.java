@@ -6,9 +6,9 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.storage.db.jdbc.KjdbcResource;
 import com.yuckar.infra.storage.db.utils.DB_tag_utils;
-import com.yuckar.infra.text.json.ConfigUtils;
 
 @SuppressWarnings("unchecked")
 public interface Dbcp2BaseResource extends KjdbcResource<Object> {

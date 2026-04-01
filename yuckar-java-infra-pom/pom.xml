@@ -13,10 +13,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-buffer</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>yuckar-java-infra</groupId>
 			<artifactId>yuckar-java-infra-common</artifactId>
 		</dependency>
 		<dependency>
@@ -43,15 +39,7 @@
 		</dependency>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-executor</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>yuckar-java-infra</groupId>
 			<artifactId>yuckar-java-infra-monitor</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-perf</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
@@ -71,15 +59,15 @@
 		</dependency>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
+			<artifactId>yuckar-java-infra-spring</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>yuckar-java-infra</groupId>
 			<artifactId>yuckar-java-infra-storage</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
 			<artifactId>yuckar-java-infra-text</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-thread</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>

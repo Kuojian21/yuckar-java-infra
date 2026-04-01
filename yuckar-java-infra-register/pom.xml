@@ -13,10 +13,6 @@
 			<groupId>yuckar-java-infra</groupId>
 			<artifactId>yuckar-java-infra-common</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-text</artifactId>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.curator/curator-framework -->
 		<dependency>
 			<groupId>org.apache.curator</groupId>

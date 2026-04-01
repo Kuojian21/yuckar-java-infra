@@ -1,20 +1,25 @@
 package com.yuckar.infra.common.scanner;
 
 import com.annimon.stream.function.Predicate;
+import com.yuckar.infra.common.thread.utils.ThreadHelper;
 
 public class ClazzScanner extends Scanner<Class<?>> {
 
-	public static ClazzScanner of(String pkg, Predicate<Class<?>> filter) {
-		return of(pkg, filter, ClazzScanner.class.getClassLoader());
+	public static ClazzScanner of(Predicate<Class<?>> filter) {
+		return of(filter, ThreadHelper.getContextClassLoader());
 	}
 
-	public static ClazzScanner of(String pkg, Predicate<Class<?>> filter, ClassLoader clazzLoader) {
-		return new ClazzScanner(pkg, filter, clazzLoader);
+	public static ClazzScanner of(Predicate<Class<?>> filter, ClassLoader loader) {
+		return new ClazzScanner(filter, loader);
 	}
 
-	private ClazzScanner(String pkg, Predicate<Class<?>> filter, ClassLoader clazzLoader) {
-		super(pkg.replace(".", "/"), "(" + pkg.replace(".", "/") + ".+)\\.class$",
-				cls -> Class.forName(cls.replace("/", ".")), filter, clazzLoader);
+	private ClazzScanner(Predicate<Class<?>> filter, ClassLoader loader) {
+		super(cls -> Class.forName(cls.replace("/", ".")), filter, loader);
+	}
+
+	public ClazzScanner scan(String pkg) {
+		super.scan(pkg.replace(".", "/"), "(" + pkg.replace(".", "/") + ".+)\\.class$");
+		return this;
 	}
 
 }

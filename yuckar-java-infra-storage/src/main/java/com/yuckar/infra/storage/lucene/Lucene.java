@@ -25,9 +25,9 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.yuckar.infra.common.file.utils.FileUtils;
 import com.yuckar.infra.common.hook.HookHelper;
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.text.json.ConfigUtils;
 
 public class Lucene implements Closeable {
 

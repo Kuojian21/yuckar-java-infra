@@ -22,10 +22,10 @@ public class StartableMain {
 			for (Startable startable : SpiFactory.stream(Startable.class).sorted().toList()) {
 				logger.info("The startable:{} will start!!!", startable.getClass().getSimpleName());
 				startable.startup();
-				logger.info("The startable:{} have started success!!!", startable.getClass().getSimpleName());
+				logger.info("The startable:{} have started successlly!!!", startable.getClass().getSimpleName());
 			}
-		} catch (Exception e) {
-			logger.error("StartablaMain exception!!!", e);
+		} catch (Throwable e) {
+			logger.error("StartablaMain throwable!!!", e);
 			SignalHelper.raise(new Signal("TERM"));
 		} finally {
 			TraceIDUtils.clear();

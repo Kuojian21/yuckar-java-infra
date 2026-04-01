@@ -3,9 +3,9 @@ package com.yuckar.infra.network.jsch;
 import java.util.Properties;
 
 import com.jcraft.jsch.Channel;
-import com.yuckar.infra.executor.pool.AbstractPoolExecutorInfo;
+import com.yuckar.infra.common.executor.PoolExecutorInfoDefault;
 
-public class JschBeanInfo<B extends Channel> extends AbstractPoolExecutorInfo<B> {
+public class JschBeanInfo<B extends Channel> extends PoolExecutorInfoDefault<B> {
 
 	private String host;
 	private int port;

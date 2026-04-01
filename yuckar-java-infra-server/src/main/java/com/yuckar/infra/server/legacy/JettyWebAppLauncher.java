@@ -1,6 +1,9 @@
 package com.yuckar.infra.server.legacy;
 
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import com.yuckar.infra.common.thread.utils.ThreadHelper;
+
 import org.eclipse.jetty.server.Server;
 import java.io.File;
 import java.net.URL;
@@ -39,7 +42,7 @@ public class JettyWebAppLauncher {
 		}
 
 		// 如果在 classpath 中
-		URL resource = JettyWebAppLauncher.class.getClassLoader().getResource("webapp");
+		URL resource = ThreadHelper.getContextClassLoader().getResource("webapp");
 		if (resource != null) {
 			return resource.getPath();
 		}

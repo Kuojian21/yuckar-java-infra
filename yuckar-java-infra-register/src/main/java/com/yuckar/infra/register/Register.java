@@ -2,10 +2,10 @@ package com.yuckar.infra.register;
 
 public interface Register<V> {
 
-	V get(String key);
+	V get(String path);
 
-	void set(String key, V value);
+	void set(String path, V value);
 
-	void addListener(String key, RegisterListener<V> listener);
+	void addListener(String path, RegisterListener<V> listener);
 
 }

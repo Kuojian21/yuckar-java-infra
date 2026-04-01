@@ -4,7 +4,7 @@ import javax.mail.Store;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-import com.yuckar.infra.executor.pool.PoolExecutorInfo;
+import com.yuckar.infra.common.executor.PoolExecutorInfo;
 import com.yuckar.infra.network.mail.MailInfo;
 
 public class MailReceiverInfo extends MailInfo implements PoolExecutorInfo<Store> {

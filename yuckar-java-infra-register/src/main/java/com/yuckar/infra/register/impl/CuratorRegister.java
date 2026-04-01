@@ -2,6 +2,7 @@ package com.yuckar.infra.register.impl;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.CuratorCache;
@@ -9,29 +10,36 @@ import org.apache.curator.framework.recipes.cache.CuratorCacheListener;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 
+import com.annimon.stream.function.Function;
 import com.google.common.collect.Maps;
+import com.yuckar.infra.common.json.JsonUtils;
 import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.register.AbstractRegister;
-import com.yuckar.infra.text.json.JsonUtils;
+import com.yuckar.infra.register.RegisterListener;
 
 public class CuratorRegister<V> extends AbstractRegister<V> {
 
 	private final Map<String, LazySupplier<CuratorCache>> caches = Maps.newConcurrentMap();
 	private final CuratorFramework curator;
 
-	public CuratorRegister(Class<V> clazz, CuratorFramework curator) {
-		super(clazz);
+	public CuratorRegister(CuratorFramework curator, Class<V> clazz) {
+		this(curator, clazz, null);
+	}
+
+	public CuratorRegister(CuratorFramework curator, Class<V> clazz,
+			Function<String, Set<RegisterListener<V>>> listeners) {
+		super(clazz, listeners);
 		this.curator = curator;
 	}
 
 	@Override
-	public void set(String key, V value) {
+	public void set(String path, V value) {
 		byte[] bytes = JsonUtils.toJson(value).getBytes(StandardCharsets.UTF_8);
 		try {
-			curator.setData().forPath(key, bytes);
+			curator.setData().forPath(path, bytes);
 		} catch (KeeperException.NoNodeException e) {
 			try {
-				curator.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(key, bytes);
+				curator.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path, bytes);
 			} catch (KeeperException.NodeExistsException nee) {
 			} catch (Exception ee) {
 				throw new RuntimeException(ee);

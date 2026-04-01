@@ -12,11 +12,12 @@ import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 
 import com.annimon.stream.Optional;
-import com.annimon.stream.function.Consumer;
+import com.annimon.stream.Stream;
+import com.annimon.stream.function.ThrowableConsumer;
 import com.google.common.base.Joiner;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.info.Pair;
+import com.yuckar.infra.common.bean.simple.Pair;
 import com.yuckar.infra.common.logger.LoggerUtils;
 import com.yuckar.infra.common.number.N_humanUtils;
 
@@ -49,8 +50,13 @@ public class ProcessExecutor {
 		return Pair.pair(exec(new String[] { command }, list::add), list);
 	}
 
-	public int exec(String command, Consumer<String> handler) throws IOException, InterruptedException {
+	public <X extends Throwable> int exec(String command, ThrowableConsumer<String, X> handler)
+			throws IOException, InterruptedException {
 		return exec(new String[] { command }, handler);
+	}
+
+	public Pair<Integer, List<String>> exec(List<String> commands) throws IOException, InterruptedException {
+		return exec(commands.toArray(l -> new String[l]));
 	}
 
 	public Pair<Integer, List<String>> exec(String[] commands) throws IOException, InterruptedException {
@@ -58,7 +64,13 @@ public class ProcessExecutor {
 		return Pair.pair(exec(commands, list::add), list);
 	}
 
-	public int exec(String[] commands, Consumer<String> handler) throws IOException, InterruptedException {
+	public <X extends Throwable> int exec(List<String> commands, ThrowableConsumer<String, X> handler)
+			throws IOException, InterruptedException {
+		return exec(commands.toArray(l -> new String[l]), handler);
+	}
+
+	public <X extends Throwable> int exec(String[] commands, ThrowableConsumer<String, X> handler)
+			throws IOException, InterruptedException {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		long pid = -1L;
 		int exit = -1;
@@ -73,7 +85,8 @@ public class ProcessExecutor {
 				builder.command().add("sh");
 				builder.command().add("-c");
 			}
-			builder.command().addAll(Lists.newArrayList(commands));
+
+			builder.command().addAll(Stream.of(commands).flatMap(c -> Stream.of(c.split(" "))).toList());
 			Process process = builder.start();
 			pid = process.pid();
 			/**
@@ -82,7 +95,11 @@ public class ProcessExecutor {
 			try (BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), charset))) {
 				String line;
 				while ((line = br.readLine()) != null) {
-					handler.accept(line);
+					try {
+						handler.accept(line);
+					} catch (Throwable e) {
+						logger.error("", e);
+					}
 				}
 			}
 			exit = process.waitFor();

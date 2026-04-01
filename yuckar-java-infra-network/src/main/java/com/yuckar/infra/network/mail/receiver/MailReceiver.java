@@ -4,7 +4,7 @@ import javax.mail.Store;
 
 import com.sun.mail.imap.IMAPStore;
 import com.google.common.collect.ImmutableMap;
-import com.yuckar.infra.executor.pool.PoolExecutor;
+import com.yuckar.infra.common.executor.PoolExecutor;
 import com.yuckar.infra.network.mail.MailUtils;
 
 public class MailReceiver extends PoolExecutor<Store, MailReceiverInfo> {

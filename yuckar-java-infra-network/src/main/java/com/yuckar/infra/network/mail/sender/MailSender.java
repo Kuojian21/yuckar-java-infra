@@ -10,7 +10,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 
 import com.google.common.collect.Lists;
-import com.yuckar.infra.executor.lazy.LazyExecutor;
+import com.yuckar.infra.common.executor.LazyExecutor;
 import com.yuckar.infra.network.mail.MailInfo;
 import com.yuckar.infra.network.mail.MailUtils;
 

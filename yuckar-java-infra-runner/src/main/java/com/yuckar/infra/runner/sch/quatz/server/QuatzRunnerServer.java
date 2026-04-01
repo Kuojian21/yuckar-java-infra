@@ -19,6 +19,7 @@ import org.quartz.spi.MutableTrigger;
 import com.annimon.stream.Optional;
 import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.common.term.TermHelper;
+import com.yuckar.infra.common.thread.utils.ThreadHelper;
 import com.yuckar.infra.runner.sch.quatz.QuatzRunner;
 import com.yuckar.infra.runner.sch.quatz.detail.QuatzJobDetailBuilder;
 import com.yuckar.infra.runner.sch.quatz.job.QuatzJob;
@@ -66,7 +67,7 @@ public class QuatzRunnerServer extends AbstractRunnerServer<QuatzRunner> {
 	}
 
 	public Properties properties() {
-		try (InputStream in = getClass().getClassLoader().getResourceAsStream("schedule/quartz.properties")) {
+		try (InputStream in = ThreadHelper.getContextClassLoader().getResourceAsStream("schedule/quartz.properties")) {
 			Properties props = new Properties();
 			props.load(in);
 			if (!props.containsKey("org.quartz.threadPool.threadCount")) {

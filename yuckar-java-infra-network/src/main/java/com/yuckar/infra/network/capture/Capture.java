@@ -2,8 +2,8 @@ package com.yuckar.infra.network.capture;
 
 import org.openqa.selenium.WebDriver;
 
+import com.yuckar.infra.common.executor.PoolExecutor;
 import com.yuckar.infra.common.lazy.LazyRunnable;
-import com.yuckar.infra.executor.pool.PoolExecutor;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 

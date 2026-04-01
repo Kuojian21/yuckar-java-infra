@@ -23,9 +23,10 @@ import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Consumer;
 import com.google.common.collect.Maps;
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.common.logger.LoggerUtils;
 import com.yuckar.infra.common.term.TermHelper;
-import com.yuckar.infra.text.json.ConfigUtils;
+import com.yuckar.infra.common.thread.utils.ThreadHelper;
 
 import jakarta.servlet.Servlet;
 
@@ -81,7 +82,7 @@ public abstract class JettyServer {
 
 	public void startup(Consumer<Server> init) throws Exception {
 		Map<String, Object> props = Maps.newHashMap();
-		Optional.ofNullable(this.getClass().getClassLoader().getResource("jetty/jetty.properties")).ifPresent(url -> {
+		Optional.ofNullable(ThreadHelper.getContextClassLoader().getResource("jetty/jetty.properties")).ifPresent(url -> {
 			try (InputStream in = url.openStream()) {
 				Properties p = new Properties();
 				p.load(in);

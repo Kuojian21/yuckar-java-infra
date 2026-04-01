@@ -1,8 +1,8 @@
 package com.yuckar.infra.crypto;
 
-import com.yuckar.infra.executor.pool.AbstractPoolExecutorInfo;
+import com.yuckar.infra.common.executor.PoolExecutorInfoDefault;
 
-public class CryptoInfo<T> extends AbstractPoolExecutorInfo<T> {
+public class CryptoInfo<T> extends PoolExecutorInfoDefault<T> {
 
 	private String algorithm;
 

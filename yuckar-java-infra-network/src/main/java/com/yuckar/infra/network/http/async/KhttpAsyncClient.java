@@ -15,10 +15,10 @@ import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.util.EntityUtils;
 
 import com.annimon.stream.Optional;
-import com.yuckar.infra.executor.lazy.LazyExecutor;
+import com.yuckar.infra.common.executor.LazyExecutor;
+import com.yuckar.infra.common.json.JsonUtils;
+import com.yuckar.infra.common.thread.future.MapperFuture;
 import com.yuckar.infra.network.http.utils.KhttpUtils;
-import com.yuckar.infra.text.json.JsonUtils;
-import com.yuckar.infra.thread.future.MapperFuture;
 
 public class KhttpAsyncClient extends LazyExecutor<CloseableHttpAsyncClient, KhttpAsyncClientInfo> {
 

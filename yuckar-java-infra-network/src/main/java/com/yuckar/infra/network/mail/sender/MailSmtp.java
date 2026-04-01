@@ -6,7 +6,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 
 import com.google.common.collect.Lists;
-import com.yuckar.infra.executor.pool.PoolExecutor;
+import com.yuckar.infra.common.executor.PoolExecutor;
 import com.yuckar.infra.network.mail.MailUtils;
 import com.sun.mail.smtp.SMTPTransport;
 

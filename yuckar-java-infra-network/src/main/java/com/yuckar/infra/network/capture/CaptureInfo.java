@@ -3,7 +3,7 @@ package com.yuckar.infra.network.capture;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.openqa.selenium.WebDriver;
 
-import com.yuckar.infra.executor.pool.PoolExecutorInfo;
+import com.yuckar.infra.common.executor.PoolExecutorInfo;
 
 public class CaptureInfo<T extends WebDriver> implements PoolExecutorInfo<T> {
 

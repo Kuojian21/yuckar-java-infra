@@ -2,6 +2,7 @@ package com.yuckar.infra.runner.mq.kafka.holder;
 
 import java.time.Duration;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.common.util.concurrent.Uninterruptibles;
+import com.yuckar.infra.common.json.JsonUtils;
 import com.yuckar.infra.common.lazy.LazyRunnable;
 import com.yuckar.infra.common.logger.LoggerUtils;
 import com.yuckar.infra.common.term.TermHelper;
@@ -18,7 +20,6 @@ import com.yuckar.infra.common.utils.RunUtils;
 import com.yuckar.infra.register.context.RegisterFactory;
 import com.yuckar.infra.runner.common.RunnerHolder;
 import com.yuckar.infra.runner.mq.kafka.KafkaRunner;
-import com.yuckar.infra.text.json.JsonUtils;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class KafkaRunnerHolder extends RunnerHolder<KafkaRunner> {
@@ -42,7 +43,7 @@ public class KafkaRunnerHolder extends RunnerHolder<KafkaRunner> {
 				try {
 					while (!TermHelper.isStopping()) {
 						if (stopping.get()) {
-							Uninterruptibles.sleepUninterruptibly(Duration.ofSeconds(5));
+							Uninterruptibles.sleepUninterruptibly(5, TimeUnit.SECONDS);
 						}
 						RunUtils.catching(() -> {
 							ConsumerRecords<?, ?> records = consumer.poll(Duration.ofMinutes(1));

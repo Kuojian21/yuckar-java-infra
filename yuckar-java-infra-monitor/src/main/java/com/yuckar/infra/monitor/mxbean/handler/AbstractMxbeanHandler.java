@@ -5,9 +5,9 @@ import java.util.Map;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.yuckar.infra.common.json.JsonUtils;
 import com.yuckar.infra.monitor.mxbean.IMxbeanHandler;
 import com.yuckar.infra.monitor.mxbean.holder.AbstractMxbeanHolder;
-import com.yuckar.infra.text.json.JsonUtils;
 
 public abstract class AbstractMxbeanHandler<D extends PlatformManagedObject, T extends AbstractMxbeanHolder<D>>
 		implements IMxbeanHandler<T> {

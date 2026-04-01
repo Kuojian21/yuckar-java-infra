@@ -7,6 +7,7 @@ import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.common.utils.StackUtils;
 import com.yuckar.infra.register.Register;
 import com.yuckar.infra.register.context.RegisterFactory;
+import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
 
 class KconfImpl<T, V> implements Kconf<T> {
 	private final String key;
@@ -22,19 +23,20 @@ class KconfImpl<T, V> implements Kconf<T> {
 		this.mapper = mapper;
 		this.release = release;
 		String classname = StackUtils.firstBusinessInvokerClassname();
+		String path = RegisterNamespaceUtils.config(this.key);
 		this.conf = LazySupplier.wrap(() -> {
 			Register<V> register = RegisterFactory.getContext(classname).getRegister(this.clazz);
-			register.addListener(key, event -> KconfImpl.this.refresh());
+			register.addListener(path, event -> KconfImpl.this.refresh());
 			if (KconfImpl.this.release != null) {
 				HookHelper.addHook("kconf", KconfImpl.this::refresh);
 			}
-			return LazySupplier.wrap(() -> this.mapper.apply(register.get(key)));
+			return LazySupplier.wrap(() -> this.mapper.apply(register.get(path)));
 		});
 	}
 
-	public String key() {
-		return this.key;
-	}
+//	public String key() {
+//		return this.key;
+//	}
 
 	@Override
 	public T get() {

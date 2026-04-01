@@ -9,70 +9,73 @@ import java.util.regex.Pattern;
 
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Predicate;
+import com.annimon.stream.function.ThrowableConsumer;
 import com.annimon.stream.function.ThrowableFunction;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.common.utils.RunUtils;
 
 public class Scanner<T> {
 
-	public static <T> Scanner<T> of(String path, String regex, ThrowableFunction<String, T, Throwable> mapper,
-			Predicate<T> filter, ClassLoader clazzLoader) {
-		return new Scanner<>(path, regex, mapper, filter, clazzLoader);
+	public static Scanner<Void> of(ThrowableConsumer<String, Throwable> mapper, ClassLoader loader) {
+		return of(str -> {
+			mapper.accept(str);
+			return null;
+		}, o -> false, loader);
 	}
 
-//	private final String path;
-//	private final String regex;
-	private final Pattern pattern;
+	public static <T> Scanner<T> of(ThrowableFunction<String, T, Throwable> mapper, Predicate<T> filter,
+			ClassLoader clazzLoader) {
+		return new Scanner<>(mapper, filter, clazzLoader);
+	}
+
 	private final ThrowableFunction<String, T, Throwable> mapper;
 	private final Predicate<T> filter;
-	private final LazySupplier<List<T>> datas;
+	private final ClassLoader loader;
+	private final List<T> datas = Lists.newArrayList();
 
-	public Scanner(String path, String regex, ThrowableFunction<String, T, Throwable> mapper, Predicate<T> filter,
-			ClassLoader clazzLoader) {
-//		this.path = path;
-//		this.regex = regex;
-		this.pattern = Pattern.compile(regex);
+	public Scanner(ThrowableFunction<String, T, Throwable> mapper, Predicate<T> filter, ClassLoader loader) {
 		this.mapper = mapper;
 		this.filter = filter;
-		this.datas = LazySupplier.wrap(() -> {
-			List<T> clazzes = Lists.newArrayList();
-			RunUtils.catching(() -> {
-				Stream.of(clazzLoader.getResources(path).asIterator()).forEach(url -> {
-					switch (url.getProtocol()) {
-					case "file":
-						scan(new File(RunUtils.catching(() -> url.toURI())), clazzes);
-						break;
-					case "jar":
-						scan(RunUtils.catching(() -> ((JarURLConnection) url.openConnection()).getJarFile()), clazzes);
-						break;
-					default:
-					}
-				});
+		this.loader = loader;
+	}
+
+	public Scanner<T> scan(String path, String regex) {
+		Pattern pattern = Pattern.compile(regex);
+		RunUtils.catching(() -> {
+			Stream.of(loader.getResources(path).asIterator()).forEach(url -> {
+				switch (url.getProtocol()) {
+				case "file":
+					scan(new File(RunUtils.catching(() -> url.toURI())), pattern);
+					break;
+				case "jar":
+					scan(RunUtils.catching(() -> ((JarURLConnection) url.openConnection()).getJarFile()), pattern);
+					break;
+				default:
+				}
 			});
-			return clazzes;
 		});
+		return this;
 	}
 
-	public List<T> scan() {
-		return this.datas.get();
+	public List<T> get() {
+		return this.datas;
 	}
 
-	private void scan(File file, List<T> datas) {
+	private void scan(File file, Pattern pattern) {
 		if (file.isDirectory()) {
-			Stream.of(file.listFiles()).forEach(f -> scan(f, datas));
+			Stream.of(file.listFiles()).forEach(f -> scan(f, pattern));
 		} else if (file.isFile()) {
-			data(file.getAbsolutePath().replace(File.separator, "/"), datas);
+			data(file.getAbsolutePath().replace(File.separator, "/"), pattern);
 		}
 	}
 
-	private void scan(JarFile jar, List<T> datas) {
+	private void scan(JarFile jar, Pattern pattern) {
 		Stream.of(jar.entries().asIterator()).filter(entry -> !entry.isDirectory()).forEach(entry -> {
-			data(jar.getName() + "?" + entry.getName(), datas);
+			data(jar.getName() + "?" + entry.getName(), pattern);
 		});
 	}
 
-	private void data(String name, List<T> datas) {
+	private void data(String name, Pattern pattern) {
 		Matcher matcher = pattern.matcher(name);
 		if (matcher.find()) {
 			RunUtils.catching(() -> {

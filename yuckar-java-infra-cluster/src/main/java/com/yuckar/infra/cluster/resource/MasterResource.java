@@ -16,7 +16,7 @@ public interface MasterResource<R, I, C extends MasterInfo<I>> {
 
 	Logger logger = LoggerUtils.logger(MasterResource.class);
 
-	String ID();
+	String path();
 
 	Function<InstanceInfo<I>, R> mapper();
 

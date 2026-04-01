@@ -2,7 +2,7 @@ package com.yuckar.infra.network.jsch;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.JSchException;
-import com.yuckar.infra.executor.pool.PoolExecutor;
+import com.yuckar.infra.common.executor.PoolExecutor;
 
 public abstract class JschBean<B extends Channel, I extends JschBeanInfo<B>> extends PoolExecutor<B, I> {
 

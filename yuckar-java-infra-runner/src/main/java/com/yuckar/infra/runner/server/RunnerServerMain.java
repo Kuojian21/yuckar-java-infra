@@ -7,10 +7,10 @@ import org.slf4j.Logger;
 import com.annimon.stream.Stream;
 import com.yuckar.infra.common.args.Args;
 import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.spring.SpringBeanFactory;
 import com.yuckar.infra.runner.Runner;
 import com.yuckar.infra.runner.RunnerGroup;
 import com.yuckar.infra.server.args.ServerArgs;
+import com.yuckar.infra.spring.factory.SpringBeanFactory;
 
 public class RunnerServerMain {
 

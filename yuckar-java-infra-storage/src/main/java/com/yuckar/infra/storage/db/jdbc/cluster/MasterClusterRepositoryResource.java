@@ -1,14 +1,9 @@
 package com.yuckar.infra.storage.db.jdbc.cluster;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
-
 import com.annimon.stream.function.Function;
-import com.google.common.collect.MapMaker;
-import com.google.common.collect.Maps;
-import com.yuckar.infra.cluster.Master;
 import com.yuckar.infra.cluster.info.InstanceInfo;
 import com.yuckar.infra.cluster.resource.MasterClusterResource;
+import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
 import com.yuckar.infra.storage.db.jdbc.KjdbcHolder;
 import com.yuckar.infra.storage.db.jdbc.KjdbcRepository;
 import com.yuckar.infra.storage.db.jdbc.KjdbcResource;
@@ -16,8 +11,12 @@ import com.yuckar.infra.storage.db.jdbc.KjdbcResource;
 public interface MasterClusterRepositoryResource<I, C extends MasterClusterRepositoryInfo<I>>
 		extends KjdbcResource<I>, MasterClusterResource<KjdbcHolder, I, C> {
 
-	Map<MasterClusterRepositoryResource<?, ?>, ConcurrentMap<Master<KjdbcHolder>, KjdbcRepository>> repos = Maps
-			.newConcurrentMap();
+	String key();
+
+	@Override
+	default String path() {
+		return RegisterNamespaceUtils.database(key());
+	}
 
 	@Override
 	default Function<InstanceInfo<I>, KjdbcHolder> mapper() {
@@ -25,15 +24,7 @@ public interface MasterClusterRepositoryResource<I, C extends MasterClusterRepos
 	}
 
 	default KjdbcRepository getRepository(long key) {
-		Master<KjdbcHolder> standby = MasterClusterRepositoryResource.this.getResource().getResource(key);
-		return repos.computeIfAbsent(this, k -> new MapMaker().weakKeys().weakValues().makeMap())
-				.computeIfAbsent(standby, sb -> new KjdbcRepository() {
-					@Override
-					public KjdbcHolder holder(boolean master) {
-						return master ? sb.master() : sb.slave();
-					}
-				});
-
+		return MasterClusterRepositoryResourceHolder.getRepository(this, key);
 	}
 
 }

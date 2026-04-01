@@ -17,11 +17,11 @@ import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.common.logger.LoggerUtils;
 import com.yuckar.infra.common.utils.RunUtils;
 import com.yuckar.infra.network.http.async.KhttpAsyncClientInfo;
 import com.yuckar.infra.network.http.sync.KhttpClientInfo;
-import com.yuckar.infra.text.json.ConfigUtils;
 import com.yuckar.infra.trace.client.TraceHttpRequestInterceptor;
 import com.yuckar.infra.trace.client.TraceHttpResponseInterceptor;
 

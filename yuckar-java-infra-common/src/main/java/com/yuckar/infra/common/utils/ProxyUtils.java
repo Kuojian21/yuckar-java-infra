@@ -3,6 +3,8 @@ package com.yuckar.infra.common.utils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 
+import com.yuckar.infra.common.thread.utils.ThreadHelper;
+
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -19,7 +21,7 @@ public class ProxyUtils {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T jvm(Class<T> clazz, MethodInterceptor handler) {
-		return (T) Proxy.newProxyInstance(ProxyUtils.class.getClassLoader(), new Class<?>[] { clazz },
+		return (T) Proxy.newProxyInstance(ThreadHelper.getContextClassLoader(), new Class<?>[] { clazz },
 				(obj, method, args) -> handler.intercept(obj, method, args, null));
 	}
 

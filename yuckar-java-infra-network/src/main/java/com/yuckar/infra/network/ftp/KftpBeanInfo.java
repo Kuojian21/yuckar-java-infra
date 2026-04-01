@@ -1,8 +1,8 @@
 package com.yuckar.infra.network.ftp;
 
-import com.yuckar.infra.executor.pool.AbstractPoolExecutorInfo;
+import com.yuckar.infra.common.executor.PoolExecutorInfoDefault;
 
-public class KftpBeanInfo<T> extends AbstractPoolExecutorInfo<T> {
+public class KftpBeanInfo<T> extends PoolExecutorInfoDefault<T> {
 	private String hostname;
 	private int port;
 	private String username;

@@ -2,7 +2,7 @@ package com.yuckar.infra.network.browser;
 
 import org.htmlunit.WebClient;
 
-import com.yuckar.infra.executor.pool.PoolExecutor;
+import com.yuckar.infra.common.executor.PoolExecutor;
 
 public class Browser extends PoolExecutor<WebClient, BrowserInfo> {
 

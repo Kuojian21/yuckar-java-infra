@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 import com.yuckar.infra.common.logger.LoggerUtils;
 import com.yuckar.infra.common.number.N_humanUtils;
 import com.yuckar.infra.common.number.N_zhUtils;
+import com.yuckar.infra.common.thread.utils.ThreadHelper;
 import com.yuckar.infra.text.tpl.TplRender;
 
 import freemarker.template.Configuration;
@@ -21,7 +22,7 @@ public class Freemarker implements TplRender {
 	}
 
 	public static Freemarker freemarker(String basePackagePath) {
-		return new Freemarker(basePackagePath, Freemarker.class.getClassLoader());
+		return new Freemarker(basePackagePath, ThreadHelper.getContextClassLoader());
 	}
 
 	public static Freemarker freemarker(String basePackagePath, ClassLoader loader) {

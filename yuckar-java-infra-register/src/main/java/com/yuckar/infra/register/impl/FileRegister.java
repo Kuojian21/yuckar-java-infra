@@ -3,15 +3,18 @@ package com.yuckar.infra.register.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.lang3.StringUtils;
 
+import com.annimon.stream.function.Function;
 import com.google.common.io.Files;
 import com.yuckar.infra.common.file.utils.FileUtils;
+import com.yuckar.infra.common.json.JsonUtils;
 import com.yuckar.infra.register.AbstractRegister;
-import com.yuckar.infra.register.utils.RegisterUtils;
-import com.yuckar.infra.text.json.JsonUtils;
+import com.yuckar.infra.register.RegisterListener;
+import com.yuckar.infra.register.utils.RegisterFileUtils;
 
 public class FileRegister<V> extends AbstractRegister<V> {
 
@@ -22,14 +25,18 @@ public class FileRegister<V> extends AbstractRegister<V> {
 	}
 
 	public FileRegister(String workspace, Class<V> clazz) {
-		super(clazz);
+		this(workspace, clazz, null);
+	}
+
+	public FileRegister(String workspace, Class<V> clazz, Function<String, Set<RegisterListener<V>>> listeners) {
+		super(clazz, listeners);
 		this.workspace = workspace;
 	}
 
 	@Override
-	public void set(String key, V value) {
+	public void set(String path, V value) {
 		try {
-			File file = new File(RegisterUtils.toFile(this.workspace, key) + File.separator + "main.json");
+			File file = new File(RegisterFileUtils.toFile(this.workspace, path) + File.separator + "main.json");
 			FileUtils.createDirIfNoExists(file.getParentFile());
 			String json = "";
 			if (value == null) {
@@ -45,12 +52,12 @@ public class FileRegister<V> extends AbstractRegister<V> {
 
 	@Override
 	protected void init(String path) {
-		File file = new File(RegisterUtils.toFile(this.workspace, path) + File.separator + "main.json");
+		File file = new File(RegisterFileUtils.toFile(this.workspace, path) + File.separator + "main.json");
 		FileUtils.createDirIfNoExists(file.getParentFile());
-		RegisterUtils.monitor(file.getParent(), new FileAlterationListenerAdaptor() {
+		RegisterFileUtils.monitor(file.getParent(), new FileAlterationListenerAdaptor() {
 			@Override
 			public void onFileCreate(final File ifile) {
-				if (file.equals(ifile)) {
+				if (file.equals(ifile) && FileRegister.this.get(path) == null) {
 					refresh(path);
 				}
 			}
@@ -61,13 +68,20 @@ public class FileRegister<V> extends AbstractRegister<V> {
 					refresh(path);
 				}
 			}
+
+			@Override
+			public void onFileDelete(final File ifile) {
+				if (file.equals(ifile)) {
+					refresh(path);
+				}
+			}
 		});
 	}
 
 	@Override
 	protected Object json(String path) {
 		try {
-			File file = new File(RegisterUtils.toFile(this.workspace, path) + File.separator + "main.json");
+			File file = new File(RegisterFileUtils.toFile(this.workspace, path) + File.separator + "main.json");
 			if (!file.exists()) {
 				return null;
 			}

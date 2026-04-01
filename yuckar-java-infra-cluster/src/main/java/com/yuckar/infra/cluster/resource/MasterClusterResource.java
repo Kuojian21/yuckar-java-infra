@@ -12,7 +12,7 @@ public interface MasterClusterResource<R, I, C extends MasterClusterInfo<I>> {
 
 	Logger logger = LoggerUtils.logger(MasterClusterResource.class);
 
-	String ID();
+	String path();
 
 	Function<InstanceInfo<I>, R> mapper();
 

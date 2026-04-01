@@ -22,7 +22,7 @@ import javax.management.ObjectName;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
-import com.google.common.collect.Maps;
+import com.yuckar.infra.common.bean.builder.MapBeanBuilder;
 import com.yuckar.infra.common.scanner.ClazzScanner;
 import com.yuckar.infra.common.spi.ParamSpiFactory;
 import com.yuckar.infra.common.utils.RunUtils;
@@ -37,7 +37,7 @@ import com.sun.management.UnixOperatingSystemMXBean;
 public abstract class AbstractMxbeanMonitor<D extends PlatformManagedObject> implements IMonitor {
 
 	private static final MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-	private static final Map<Class<?>, String> mxbean_name_map = Maps.newHashMap();
+	private static final Map<Class<?>, String> mxbean_name_map;
 	private static final Map<Class<?>, Class<?>> mxbean_holder_map;
 	private static final Map<Class<?>, Class<?>> mxbean_handler_map;
 
@@ -45,33 +45,28 @@ public abstract class AbstractMxbeanMonitor<D extends PlatformManagedObject> imp
 
 	static {
 		Stream.of(server.getDomains()).forEach(domain -> logger.info("domain:{}", domain));
-		mxbean_name_map.put(ClassLoadingMXBean.class, ManagementFactory.CLASS_LOADING_MXBEAN_NAME);
-		mxbean_name_map.put(CompilationMXBean.class, ManagementFactory.COMPILATION_MXBEAN_NAME);
-		mxbean_name_map.put(OperatingSystemMXBean.class, ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
-		mxbean_name_map.put(com.sun.management.OperatingSystemMXBean.class,
-				ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
-		mxbean_name_map.put(UnixOperatingSystemMXBean.class, ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
-		mxbean_name_map.put(RuntimeMXBean.class, ManagementFactory.RUNTIME_MXBEAN_NAME);
-		mxbean_name_map.put(ThreadMXBean.class, ManagementFactory.THREAD_MXBEAN_NAME);
-		mxbean_name_map.put(GarbageCollectorMXBean.class, ManagementFactory.GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE);
-		mxbean_name_map.put(MemoryMXBean.class, ManagementFactory.MEMORY_MXBEAN_NAME);
-		mxbean_name_map.put(MemoryManagerMXBean.class, ManagementFactory.MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE);
-		mxbean_name_map.put(MemoryPoolMXBean.class, ManagementFactory.MEMORY_POOL_MXBEAN_DOMAIN_TYPE);
-		mxbean_holder_map = Stream
-				.of(ClazzScanner.of("com.yuckar.infra.monitor.mxbean",
-						cls -> !AbstractMxbeanHolder.class.equals(cls)
-								&& AbstractMxbeanHolder.class.isAssignableFrom(cls))
-						.scan())
-				.collect(Collectors.toMap(cls -> {
+		mxbean_name_map = MapBeanBuilder.<Class<?>, String>of()
+				.put(ClassLoadingMXBean.class, ManagementFactory.CLASS_LOADING_MXBEAN_NAME)
+				.put(CompilationMXBean.class, ManagementFactory.COMPILATION_MXBEAN_NAME)
+				.put(OperatingSystemMXBean.class, ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME)
+				.put(com.sun.management.OperatingSystemMXBean.class, ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME)
+				.put(UnixOperatingSystemMXBean.class, ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME)
+				.put(RuntimeMXBean.class, ManagementFactory.RUNTIME_MXBEAN_NAME)
+				.put(ThreadMXBean.class, ManagementFactory.THREAD_MXBEAN_NAME)
+				.put(GarbageCollectorMXBean.class, ManagementFactory.GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE)
+				.put(MemoryMXBean.class, ManagementFactory.MEMORY_MXBEAN_NAME)
+				.put(MemoryManagerMXBean.class, ManagementFactory.MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE)
+				.put(MemoryPoolMXBean.class, ManagementFactory.MEMORY_POOL_MXBEAN_DOMAIN_TYPE) //
+				.build();
+		mxbean_holder_map = Stream.of(ClazzScanner
+				.of(cls -> !AbstractMxbeanHolder.class.equals(cls) && AbstractMxbeanHolder.class.isAssignableFrom(cls))
+				.scan("com.yuckar.infra.monitor.mxbean").get()).collect(Collectors.toMap(cls -> {
 					return (Class<?>) TypeMapperUtils.mapper(cls).get(AbstractMxbeanHolder.class)
 							.get(AbstractMxbeanHolder.class.getTypeParameters()[0]);
 				}, cls -> cls));
-		mxbean_handler_map = Stream
-				.of(ClazzScanner.of("com.yuckar.infra.monitor.mxbean",
-						cls -> !AbstractMxbeanHandler.class.equals(cls)
-								&& AbstractMxbeanHandler.class.isAssignableFrom(cls))
-						.scan())
-				.collect(Collectors.toMap(cls -> cls, cls -> {
+		mxbean_handler_map = Stream.of(ClazzScanner.of(
+				cls -> !AbstractMxbeanHandler.class.equals(cls) && AbstractMxbeanHandler.class.isAssignableFrom(cls))
+				.scan("com.yuckar.infra.monitor.mxbean").get()).collect(Collectors.toMap(cls -> cls, cls -> {
 					return (Class<?>) TypeMapperUtils.mapper(cls).get(AbstractMxbeanHandler.class)
 							.get(AbstractMxbeanHandler.class.getTypeParameters()[1]);
 				}));

@@ -10,22 +10,22 @@ import org.apache.rocketmq.client.apis.consumer.FilterExpression;
 import org.apache.rocketmq.client.apis.consumer.FilterExpressionType;
 import org.apache.rocketmq.client.apis.consumer.PushConsumer;
 
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.common.term.TermHelper;
 import com.yuckar.infra.common.utils.RunUtils;
 import com.yuckar.infra.register.Register;
-import com.yuckar.infra.runner.common.RunnerConstants;
+import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
 import com.yuckar.infra.runner.mq.rocket.RocketRunner;
 import com.yuckar.infra.runner.mq.rocket.holder.RocketRunnerHolder;
 import com.yuckar.infra.runner.server.AbstractRunnerServer;
-import com.yuckar.infra.text.json.ConfigUtils;
 
 public class RocketRunnerServer extends AbstractRunnerServer<RocketRunner> {
 
 	@Override
 	protected void doRun(RocketRunner runner) {
 		RocketRunnerHolder holder = RocketRunnerHolder.of(runner);
-		String path = RunnerConstants.register_rocket + runner.topic().topic() + "/consumer";
+		String path = RegisterNamespaceUtils.rocket(runner.topic().topic() + "/consumer");
 		Register<Properties> register = holder.context().getRegister(Properties.class);
 
 		LazySupplier<RocketRunnerHolder> holder_supplier = LazySupplier.wrap(() -> RunUtils.throwing(() -> {

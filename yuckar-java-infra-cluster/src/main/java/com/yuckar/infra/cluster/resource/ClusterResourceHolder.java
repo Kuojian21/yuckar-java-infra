@@ -21,7 +21,7 @@ class ClusterResourceHolder {
 			Register<C> register = RegisterFactory.getContext(info.getClass())
 					.getRegister((Class<C>) TypeMapperUtils.mapper(info.getClass()).get(ClusterResource.class)
 							.get(ClusterResource.class.getTypeParameters()[2]));
-			return ClusterFactory.cluster(register, info.ID(), info.mapper(), info::close);
+			return ClusterFactory.cluster(register, info.path(), info.mapper(), info::close);
 		})).get();
 	}
 

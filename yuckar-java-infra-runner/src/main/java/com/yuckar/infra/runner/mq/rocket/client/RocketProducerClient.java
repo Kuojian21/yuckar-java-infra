@@ -10,13 +10,13 @@ import org.apache.rocketmq.client.apis.producer.Producer;
 import org.apache.rocketmq.client.apis.producer.SendReceipt;
 import org.apache.rocketmq.shaded.com.google.common.collect.Maps;
 
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.common.utils.RunUtils;
 import com.yuckar.infra.register.Register;
 import com.yuckar.infra.register.context.RegisterFactory;
-import com.yuckar.infra.runner.common.RunnerConstants;
+import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
 import com.yuckar.infra.runner.mq.ITopic;
-import com.yuckar.infra.text.json.ConfigUtils;
 
 public class RocketProducerClient {
 
@@ -26,7 +26,7 @@ public class RocketProducerClient {
 	public static SendReceipt send(ITopic topic, MessageBuilder builder) {
 		return RunUtils.throwing(() -> producers.computeIfAbsent(topic, k -> LazySupplier.wrap(() -> {
 			Register<Properties> register = RegisterFactory.getContext(topic.getClass()).getRegister(Properties.class);
-			String path = RunnerConstants.register_rocket + topic.topic() + "/producer";
+			String path = RegisterNamespaceUtils.rocket(topic.topic() + "/producer");
 			LazySupplier<Producer> producer = LazySupplier
 					.wrap(() -> RunUtils.throwing(() -> provider.newProducerBuilder().setTopics(topic.topic())
 							.setClientConfiguration(

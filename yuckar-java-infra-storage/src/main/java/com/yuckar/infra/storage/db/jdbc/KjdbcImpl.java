@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.annimon.stream.Optional;
 import com.google.common.base.Stopwatch;
-import com.yuckar.infra.perf.utils.PerfUtils;
+import com.yuckar.infra.common.perf.utils.PerfUtils;
 import com.yuckar.infra.storage.db.model.KdbModel;
 import com.yuckar.infra.storage.db.sql.SqlDeleteBuilder;
 import com.yuckar.infra.storage.db.sql.SqlInsertBuilder;

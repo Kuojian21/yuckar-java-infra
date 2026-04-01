@@ -13,7 +13,7 @@ import com.annimon.stream.function.ThrowableConsumer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.yuckar.infra.text.json.ConfigUtils;
+import com.yuckar.infra.common.json.ConfigUtils;
 
 @SuppressWarnings("unchecked")
 public interface Kconf<T> extends Supplier<T> {

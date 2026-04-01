@@ -2,14 +2,14 @@ package com.yuckar.infra.register;
 
 public class RegisterEvent<D> {
 
-	private String key;
+	private String path;
 
-	public String getKey() {
-		return key;
+	public String getPath() {
+		return path;
 	}
 
-	public void setKey(String id) {
-		this.key = id;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }

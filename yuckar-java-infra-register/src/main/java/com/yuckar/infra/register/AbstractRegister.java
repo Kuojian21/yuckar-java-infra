@@ -5,12 +5,14 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 
+import com.annimon.stream.Optional;
+import com.annimon.stream.function.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.yuckar.infra.common.json.ConfigUtils;
 import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.text.json.ConfigUtils;
 
 public abstract class AbstractRegister<V> implements Register<V> {
 
@@ -18,39 +20,42 @@ public abstract class AbstractRegister<V> implements Register<V> {
 
 	private final ConcurrentMap<String, Data> datas = Maps.newConcurrentMap();
 	private final Class<V> clazz;
+	private final Function<String, Set<RegisterListener<V>>> listeners;
 
-	public AbstractRegister(Class<V> clazz) {
+	public AbstractRegister(Class<V> clazz, Function<String, Set<RegisterListener<V>>> listeners) {
 		this.clazz = clazz;
+		this.listeners = listeners;
 	}
 
 	@Override
-	public final V get(String key) {
-		return getData(key).data.get().get();
+	public final V get(String path) {
+		return getData(path).data.get().get();
 	}
 
-	private Data getData(String key) {
-		return datas.computeIfAbsent(key, Data::new);
+	private Data getData(String path) {
+		return datas.computeIfAbsent(path, Data::new);
 	}
 
 	@Override
-	public final void addListener(String key, RegisterListener<V> listener) {
-		logger.debug("add listener for [{}]!!!", key);
-		getData(key).listeners.add(listener);
+	public final void addListener(String path, RegisterListener<V> listener) {
+		logger.debug("add listener for [{}]!!!", path);
+		getData(path).listeners.add(listener);
 	}
 
-	protected void refresh(String key) {
-		V oData = this.get(key);
-		datas.get(key).data.get().refresh();
-		V nData = this.get(key);
+	protected void refresh(String path) {
+		V oData = this.get(path);
+		datas.get(path).data.get().refresh();
+		V nData = this.get(path);
 
 		RegisterEvent<V> event = new RegisterEvent<V>();
-		event.setKey(key);
+		event.setPath(path);
 
 		if (Objects.equal(oData, nData)) {
 
 		} else {
-			logger.info("fireChange key:[{}]!!!", event.getKey());
-			this.getData(event.getKey()).listeners.forEach(listerner -> listerner.onChange(event));
+			logger.info("fireChange path:[{}]!!!", event.getPath());
+			this.getData(event.getPath()).listeners.forEach(listerner -> listerner.onChange(event));
+			Optional.ofNullable(listeners).map(f -> f.apply(path)).ifPresent(ls -> ls.forEach(l -> l.onChange(event)));
 		}
 	}
 

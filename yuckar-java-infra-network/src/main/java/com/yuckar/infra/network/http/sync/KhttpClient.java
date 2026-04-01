@@ -18,9 +18,9 @@ import org.apache.http.util.EntityUtils;
 import com.annimon.stream.Optional;
 import com.annimon.stream.function.ThrowableConsumer;
 import com.annimon.stream.function.ThrowableFunction;
-import com.yuckar.infra.executor.lazy.LazyExecutor;
+import com.yuckar.infra.common.executor.LazyExecutor;
+import com.yuckar.infra.common.json.JsonUtils;
 import com.yuckar.infra.network.http.utils.KhttpUtils;
-import com.yuckar.infra.text.json.JsonUtils;
 
 public class KhttpClient extends LazyExecutor<CloseableHttpClient, KhttpClientInfo> {
 

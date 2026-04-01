@@ -6,7 +6,7 @@ import java.util.concurrent.Future;
 import com.annimon.stream.Optional;
 import com.annimon.stream.function.ThrowableFunction;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.info.Pair;
+import com.yuckar.infra.common.bean.simple.Pair;
 
 import okhttp3.MediaType;
 import okhttp3.Request;

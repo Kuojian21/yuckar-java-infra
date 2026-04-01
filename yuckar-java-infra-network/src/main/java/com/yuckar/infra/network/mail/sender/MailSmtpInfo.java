@@ -2,8 +2,8 @@ package com.yuckar.infra.network.mail.sender;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-import com.yuckar.infra.executor.pool.PoolExecutorInfo;
 import com.sun.mail.smtp.SMTPTransport;
+import com.yuckar.infra.common.executor.PoolExecutorInfo;
 
 public class MailSmtpInfo extends MailSenderInfo implements PoolExecutorInfo<SMTPTransport> {
 

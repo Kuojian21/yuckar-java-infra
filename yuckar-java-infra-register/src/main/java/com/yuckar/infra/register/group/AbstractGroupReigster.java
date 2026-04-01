@@ -23,19 +23,19 @@ public abstract class AbstractGroupReigster<V, I> implements GroupRegister<V, I>
 	protected final Logger logger = LoggerUtils.logger(GroupRegister.class);
 
 	private final ConcurrentMap<String, Data> datas = Maps.newConcurrentMap();
-	private final Register<I> cregister;
-
-	public AbstractGroupReigster(Register<I> register) {
-		this.cregister = register;
-	}
+//	private final Register<I> cregister;
+//
+//	public AbstractGroupReigster(Register<I> register) {
+//		this.cregister = register;
+//	}
 
 	@Override
 	public final Map<String, I> cget(String pkey) {
 		return Stream.of(cgetData(pkey).data.get().get())
-				.collect(Collectors.toMap(p -> p, this.cregister::get, Maps::newLinkedHashMap));
+				.collect(Collectors.toMap(p -> p, this.cregister()::get, Maps::newLinkedHashMap));
 	}
 
-	private Data cgetData(String pkey) {
+	public final Data cgetData(String pkey) {
 		return this.datas.computeIfAbsent(pkey, Data::new);
 	}
 
@@ -46,7 +46,7 @@ public abstract class AbstractGroupReigster<V, I> implements GroupRegister<V, I>
 
 	@Override
 	public void cset(String ckey, I value) {
-		this.cregister.set(ckey, value);
+		this.cregister().set(ckey, value);
 	}
 
 	@Override
@@ -94,7 +94,9 @@ public abstract class AbstractGroupReigster<V, I> implements GroupRegister<V, I>
 
 	protected abstract List<String> keys(String path);
 
-	class Data {
+	protected abstract Register<I> cregister();
+
+	protected class Data {
 
 		final Set<GroupRegisterListener> plisteners = Sets.newConcurrentHashSet();
 		final Set<RegisterListener<I>> clisteners = Sets.newConcurrentHashSet();
@@ -111,15 +113,19 @@ public abstract class AbstractGroupReigster<V, I> implements GroupRegister<V, I>
 				logger.info("The group path:[{}] is initing!!!", path);
 				init(path);
 				return LazySupplier.wrap(() -> {
-					List<String> keys = keys(path);
-					keys.forEach(key -> {
-						clisteners.forEach(listener -> {
-							cregister.addListener(key, listener);
-						});
-					});
-					return keys;
+//					List<String> keys = keys(path);
+//					keys.forEach(key -> {
+//						clisteners.forEach(listener -> {
+//							cregister.addListener(key, listener);
+//						});
+//					});
+					return keys(path);
 				});
 			});
+		}
+
+		public Set<RegisterListener<I>> clisteners() {
+			return this.clisteners;
 		}
 	}
 

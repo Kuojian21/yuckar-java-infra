@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.common.collect.Maps;
+import com.yuckar.infra.common.executor.PoolExecutorInfoDefault;
 import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.executor.pool.AbstractPoolExecutorInfo;
 
-public class BrowserInfo extends AbstractPoolExecutorInfo<WebClient> {
+public class BrowserInfo extends PoolExecutorInfoDefault<WebClient> {
 
 	private static Logger logger = LoggerUtils.logger(BrowserInfo.class);
 	private static Map<String, BrowserVersion> browsers = Stream.of(BrowserVersion.ALL_SUPPORTED_BROWSERS)

@@ -78,7 +78,7 @@ public class ClusterFactory {
 				try {
 					read.lock();
 					info.refresh();
-					cluster.get().refresh(event.getKey());
+					cluster.get().refresh(event.getPath());
 				} finally {
 					read.unlock();
 				}

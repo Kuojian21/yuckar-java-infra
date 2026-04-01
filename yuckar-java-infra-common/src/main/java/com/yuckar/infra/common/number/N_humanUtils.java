@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.annimon.stream.IntStream;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.info.Pair;
+import com.yuckar.infra.common.bean.simple.Pair;
 
 public class N_humanUtils {
 

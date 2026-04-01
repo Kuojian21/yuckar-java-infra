@@ -12,9 +12,9 @@ import com.annimon.stream.function.Supplier;
 import com.github.shyiko.mysql.binlog.BinaryLogClient;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
 import com.yuckar.infra.runner.binlog.BinlogRunner;
 import com.yuckar.infra.runner.binlog.info.BinlogStatusInfo;
-import com.yuckar.infra.runner.common.RunnerConstants;
 import com.yuckar.infra.runner.common.RunnerHolder;
 
 public class BinlogRunnerHolder extends RunnerHolder<BinlogRunner> {
@@ -40,7 +40,7 @@ public class BinlogRunnerHolder extends RunnerHolder<BinlogRunner> {
 					Thread.sleep(TimeUnit.MINUTES.toMillis(1));
 					if (inited.get()) {
 						context().getRegister(BinlogStatusInfo.class).set(
-								RunnerConstants.register_binlog + runner.ID() + "/status",
+								RegisterNamespaceUtils.binlog(runner.ID() + "/status"),
 								new Supplier<BinlogStatusInfo>() {
 
 									@Override
@@ -66,7 +66,7 @@ public class BinlogRunnerHolder extends RunnerHolder<BinlogRunner> {
 
 	public BinlogStatusInfo status() {
 		return context().getRegister(BinlogStatusInfo.class)
-				.get(RunnerConstants.register_binlog + runner().ID() + "/status");
+				.get(RegisterNamespaceUtils.binlog(runner().ID() + "/status"));
 	}
 
 	public void status(String binlogFilename, long binlogPosition, String gtidSet) {

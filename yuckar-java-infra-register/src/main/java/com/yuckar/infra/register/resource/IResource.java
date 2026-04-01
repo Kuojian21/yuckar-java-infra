@@ -5,11 +5,11 @@ import org.slf4j.Logger;
 import com.annimon.stream.function.Function;
 import com.yuckar.infra.common.logger.LoggerUtils;
 
-public interface IResource<I, R> {
+interface IResource<I, R> {
 
 	Logger logger = LoggerUtils.logger(IResource.class);
 
-	String ID();
+	String path();
 
 	Function<I, R> mapper();
 

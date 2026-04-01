@@ -8,44 +8,17 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>yuckar-java-infra-common</artifactId>
+
+	<properties>
+		<jackson.version>2.19.2</jackson.version>
+	</properties>
+
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>33.4.8-jre</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/cglib/cglib -->
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>3.3.0</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.annimon/stream -->
-		<dependency>
-			<groupId>com.annimon</groupId>
-			<artifactId>stream</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.18.0</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 			<version>2.12.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.20.0</version>
 		</dependency>
 		<!--
 		https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
@@ -67,6 +40,12 @@
 			<artifactId>commons-cli</artifactId>
 			<version>1.9.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.18.0</version>
+		</dependency>
 
 		<!-- Logback 核心依赖 -->
 		<dependency>
@@ -81,32 +60,68 @@
 			<version>2.0.17</version> <!-- 与 Logback 版本匹配 -->
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>33.4.8-jre</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/cglib/cglib -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.annimon/stream -->
+		<dependency>
+			<groupId>com.annimon</groupId>
+			<artifactId>stream</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
 		<!--
-		https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
+		<!--
+		https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-guava -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-guava</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
-		<!-- 
+		<!--
+		https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-parameter-names -->
 		<dependency>
-			<groupId>com.github.phantomthief</groupId>
-			<artifactId>more-lambdas</artifactId>
-			<version>0.1.53</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-parameter-names</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
-		-->
+		<!--
+		https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-kotlin</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/com.hubspot.jackson/jackson-datatype-protobuf -->
+		<dependency>
+			<groupId>com.hubspot.jackson</groupId>
+			<artifactId>jackson-datatype-protobuf</artifactId>
+			<version>0.9.18</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>

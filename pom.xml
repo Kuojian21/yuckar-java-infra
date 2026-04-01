@@ -18,22 +18,18 @@
 		<module>yuckar-java-infra-dlock</module>
 		<module>yuckar-java-infra-pom</module>
 		<module>yuckar-java-infra-monitor</module>
-		<module>yuckar-java-infra-perf</module>
-		<module>yuckar-java-infra-thread</module>
 		<module>yuckar-java-infra-register</module>
 		<module>yuckar-java-infra-cluster</module>
 		<module>yuckar-java-infra-code</module>
-		<module>yuckar-java-infra-buffer</module>
 		<module>yuckar-java-infra-server</module>
 		<module>yuckar-java-infra-crawler</module>
-		<module>yuckar-java-infra-executor</module>
+		<module>yuckar-java-infra-spring</module>
 	</modules>
 
 	<properties>
 		<maven-compiler.version>3.10.1</maven-compiler.version>
 		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>6.2.7</spring.version>
 	</properties>
 
 	<dependencyManagement>
@@ -95,16 +91,6 @@
 			</dependency>
 			<dependency>
 				<groupId>yuckar-java-infra</groupId>
-				<artifactId>yuckar-java-infra-perf</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>yuckar-java-infra</groupId>
-				<artifactId>yuckar-java-infra-thread</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>yuckar-java-infra</groupId>
 				<artifactId>yuckar-java-infra-register</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
@@ -115,17 +101,12 @@
 			</dependency>
 			<dependency>
 				<groupId>yuckar-java-infra</groupId>
-				<artifactId>yuckar-java-infra-buffer</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>yuckar-java-infra</groupId>
 				<artifactId>yuckar-java-infra-server</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>yuckar-java-infra</groupId>
-				<artifactId>yuckar-java-infra-executor</artifactId>
+				<artifactId>yuckar-java-infra-spring</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 		</dependencies>

@@ -9,7 +9,7 @@ public interface IWatch {
 	}
 
 	static IWatch monitor(long interval) {
-		return WatchFileMonitor.of(interval);
+		return WatchMonitorImpl.of(interval);
 	}
 
 	static IWatch watch() {

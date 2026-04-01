@@ -13,28 +13,32 @@ import com.yuckar.infra.register.Register;
 import com.yuckar.infra.register.RegisterListener;
 import com.yuckar.infra.register.group.AbstractGroupReigster;
 import com.yuckar.infra.register.impl.FileRegister;
-import com.yuckar.infra.register.utils.RegisterUtils;
+import com.yuckar.infra.register.utils.RegisterFileUtils;
 
 public class FileGroupRegister<V, I> extends AbstractGroupReigster<V, I> {
 
 	private final Register<V> vregister;
+	private final Register<I> cregister;
 	private final String workspace;
 
 	public FileGroupRegister(Class<V> vclazz, Class<I> clazz) {
 		this(System.getProperty("user.dir") + File.separator + "register", vclazz, clazz);
 	}
 
-	public FileGroupRegister(String workspace, Class<V> vclazz, Class<I> clazz) {
-		super(new FileRegister<I>(workspace, clazz));
+	public FileGroupRegister(String workspace, Class<V> vclazz, Class<I> iclazz) {
 		this.workspace = workspace;
-		this.vregister = new FileRegister<>(this.workspace, vclazz);
+		this.vregister = new FileRegister<>(workspace, vclazz);
+		this.cregister = new FileRegister<>(workspace, iclazz, key -> {
+			String pkey = key.substring(0, key.lastIndexOf("/"));
+			return FileGroupRegister.this.cgetData(pkey).clisteners();
+		});
 	}
 
 	@Override
 	protected void init(String path) {
-		File file = new File(RegisterUtils.toFile(this.workspace, path));
+		File file = new File(RegisterFileUtils.toFile(this.workspace, path));
 		FileUtils.createDirIfNoExists(file);
-		RegisterUtils.monitor(file.getAbsolutePath(), new FileAlterationListenerAdaptor() {
+		RegisterFileUtils.monitor(file.getAbsolutePath(), new FileAlterationListenerAdaptor() {
 			/*
 			 * bugfix
 			 */
@@ -77,7 +81,7 @@ public class FileGroupRegister<V, I> extends AbstractGroupReigster<V, I> {
 
 	@Override
 	protected List<String> keys(String path) {
-		return Stream.of(new File(RegisterUtils.toFile(this.workspace, path)).listFiles())
+		return Stream.of(new File(RegisterFileUtils.toFile(this.workspace, path)).listFiles())
 				.filter(dir -> dir.isDirectory()
 						&& new File(dir.getAbsolutePath() + File.separator + "main.json").exists())
 				.map(dir -> dir.getName()).map(c -> path + "/" + c).toList();
@@ -101,6 +105,11 @@ public class FileGroupRegister<V, I> extends AbstractGroupReigster<V, I> {
 	@Override
 	public void addListener(String key, RegisterListener<V> listener) {
 		this.vregister.addListener(key, listener);
+	}
+
+	@Override
+	protected Register<I> cregister() {
+		return this.cregister;
 	}
 
 }

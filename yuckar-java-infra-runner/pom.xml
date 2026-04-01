@@ -11,10 +11,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>yuckar-java-infra</groupId>
 			<artifactId>yuckar-java-infra-storage</artifactId>
 		</dependency>
 		<dependency>

@@ -21,7 +21,7 @@ import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import com.google.common.collect.Lists;
-import com.yuckar.infra.executor.lazy.LazyExecutor;
+import com.yuckar.infra.common.executor.LazyExecutor;
 
 public class HbaseRepository extends LazyExecutor<Connection, Configuration> {
 

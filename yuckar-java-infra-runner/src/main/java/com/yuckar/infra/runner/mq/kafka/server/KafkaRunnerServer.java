@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 import com.yuckar.infra.common.lazy.LazySupplier;
 import com.yuckar.infra.common.term.TermHelper;
 import com.yuckar.infra.register.Register;
-import com.yuckar.infra.runner.common.RunnerConstants;
+import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
 import com.yuckar.infra.runner.mq.kafka.KafkaRunner;
 import com.yuckar.infra.runner.mq.kafka.holder.KafkaRunnerHolder;
 import com.yuckar.infra.runner.server.AbstractRunnerServer;
@@ -20,7 +20,7 @@ public class KafkaRunnerServer extends AbstractRunnerServer<KafkaRunner> {
 	@Override
 	protected void doRun(KafkaRunner runner) {
 		KafkaRunnerHolder holder = KafkaRunnerHolder.of(runner);
-		String path = RunnerConstants.register_kafka + runner.topic().topic() + "/consumer";
+		String path = RegisterNamespaceUtils.kafka(runner.topic().topic() + "/consumer");
 		Register<Properties> register = holder.context().getRegister(Properties.class);
 
 		LazySupplier<KafkaRunnerHolder> holder_supplier = LazySupplier.wrap(() -> {
