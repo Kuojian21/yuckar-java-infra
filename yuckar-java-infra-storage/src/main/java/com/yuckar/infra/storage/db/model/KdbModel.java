@@ -16,8 +16,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.yuckar.infra.common.bean.simple.Pair;
-import com.yuckar.infra.common.lazy.LazySupplier;
+import com.yuckar.infra.base.bean.simple.Pair;
+import com.yuckar.infra.base.lazy.LazySupplier;
 
 public class KdbModel {
 

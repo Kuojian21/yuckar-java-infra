@@ -1,6 +1,6 @@
 package com.yuckar.infra.storage.jedis;
 
-import com.yuckar.infra.common.executor.LazyExecutor;
+import com.yuckar.infra.base.executor.LazyExecutor;
 import com.yuckar.infra.storage.utils.JedisUtils;
 
 import redis.clients.jedis.JedisPool;

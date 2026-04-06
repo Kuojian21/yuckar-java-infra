@@ -8,10 +8,10 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 
 import com.google.common.base.Stopwatch;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.number.N_humanUtils;
-import com.yuckar.infra.common.perf.utils.PerfUtils;
-import com.yuckar.infra.common.trace.TraceIDUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.perf.PerfUtils;
+import com.yuckar.infra.base.trace.TraceIDUtils;
+import com.yuckar.infra.base.utils.N_humanUtils;
 import com.yuckar.infra.runner.simple.SimpleRunner;
 
 public class SimpleRunnerRunnable implements Runnable {

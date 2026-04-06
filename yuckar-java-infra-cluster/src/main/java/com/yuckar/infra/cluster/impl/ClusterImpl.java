@@ -11,12 +11,12 @@ import com.annimon.stream.function.Supplier;
 import com.annimon.stream.function.ThrowableConsumer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.yuckar.infra.base.lazy.LazySupplier;
 import com.yuckar.infra.cluster.Cluster;
 import com.yuckar.infra.cluster.info.ClusterInfo;
 import com.yuckar.infra.cluster.info.InstanceInfo;
 import com.yuckar.infra.cluster.instance.Instance;
 import com.yuckar.infra.cluster.selector.Selector;
-import com.yuckar.infra.common.lazy.LazySupplier;
 
 class ClusterImpl<R, I, C extends ClusterInfo<I>> implements Cluster<R>, AutoCloseable {
 

@@ -6,27 +6,27 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Function;
 import com.annimon.stream.function.ThrowableConsumer;
+import com.yuckar.infra.base.lazy.LazySupplier;
 import com.yuckar.infra.cluster.Master;
 import com.yuckar.infra.cluster.info.InstanceInfo;
 import com.yuckar.infra.cluster.info.MasterInfo;
 import com.yuckar.infra.cluster.utils.InfoObjectEquals;
-import com.yuckar.infra.common.lazy.LazySupplier;
-import com.yuckar.infra.register.Register;
-import com.yuckar.infra.register.RegisterEvent;
-import com.yuckar.infra.register.RegisterListener;
+import com.yuckar.infra.conf.yconfs.Yconfs;
+import com.yuckar.infra.conf.yconfs.YconfsEvent;
+import com.yuckar.infra.conf.yconfs.YconfsListener;
 
 public class MasterFactory {
 
-	public static <R, I, M extends MasterInfo<I>> Master<R> master(Register<M> register, String key,
+	public static <R, I, M extends MasterInfo<I>> Master<R> master(Yconfs<M> yconfs, String key,
 			Function<InstanceInfo<I>, R> mapper, ThrowableConsumer<R, Exception> release) {
-		LazySupplier<M> info = LazySupplier.wrap(() -> register.get(key));
+		LazySupplier<M> info = LazySupplier.wrap(() -> yconfs.get(key));
 		LazySupplier<MasterImpl<R, I, M>> master = LazySupplier
 				.wrap(() -> new MasterImpl<R, I, M>(info, mapper, release));
 
 		Object lock = new Object();
-		register.addListener(key, new RegisterListener<>() {
+		yconfs.addListener(key, new YconfsListener<>() {
 			@Override
-			public void onChange(RegisterEvent<M> event) {
+			public void onChange(YconfsEvent<M> event) {
 				synchronized (lock) {
 					MasterInfo<?> oData = (MasterInfo<?>) info.get();
 					info.refresh();

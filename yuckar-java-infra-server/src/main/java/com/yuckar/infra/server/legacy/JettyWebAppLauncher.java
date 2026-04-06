@@ -2,7 +2,7 @@ package com.yuckar.infra.server.legacy;
 
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import com.yuckar.infra.common.thread.utils.ThreadHelper;
+import com.yuckar.infra.base.thread.ThreadHelper;
 
 import org.eclipse.jetty.server.Server;
 import java.io.File;

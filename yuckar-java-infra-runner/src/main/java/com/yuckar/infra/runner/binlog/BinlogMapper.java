@@ -1,6 +1,9 @@
 package com.yuckar.infra.runner.binlog;
 
 import com.github.shyiko.mysql.binlog.event.deserialization.json.JsonBinary;
+import com.yuckar.infra.base.bean.info.BeanInfoHelper;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.utils.ClassUtils;
 
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
@@ -8,15 +11,6 @@ import java.util.Date;
 import java.util.Map;
 
 import org.slf4j.Logger;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.PropertyAccessorFactory;
-import org.springframework.core.convert.support.DefaultConversionService;
-
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-import com.google.common.base.CaseFormat;
-import com.yuckar.infra.common.logger.LoggerUtils;
 
 public final class BinlogMapper<T> {
 
@@ -27,19 +21,15 @@ public final class BinlogMapper<T> {
 
 	public BinlogMapper(Class<T> clazz) {
 		this.clazz = clazz;
-		this.descriptors = Stream.of(BeanUtils.getPropertyDescriptors(clazz)).collect(Collectors
-				.toMap(d -> CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, d.getName()).toLowerCase(), d -> d));
+		this.descriptors = BeanInfoHelper.beanInfo(clazz).columnDescriptorMap();
 	}
 
 	public T map(Map<String, Serializable> row) {
-		T obj = BeanUtils.instantiateClass(this.clazz);
+		T obj = ClassUtils.instantiate(clazz);
 
 		if (row.size() <= 0) {
 			return obj;
 		}
-
-		BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(obj);
-		wrapper.setConversionService(DefaultConversionService.getSharedInstance());
 		row.forEach((column, value) -> {
 			PropertyDescriptor descriptor = descriptors.get(column.toLowerCase());
 			if (descriptor == null) {
@@ -47,7 +37,7 @@ public final class BinlogMapper<T> {
 				return;
 			}
 			try {
-				wrapper.setPropertyValue(descriptor.getName(), cast(value, descriptor.getPropertyType()));
+				descriptor.getWriteMethod().invoke(obj, new Object[] { cast(value, descriptor.getPropertyType()) });
 			} catch (Exception e) {
 				logger.error("Set PropertyValue fail!!! column : {}, value : {}", column, value, e);
 			}

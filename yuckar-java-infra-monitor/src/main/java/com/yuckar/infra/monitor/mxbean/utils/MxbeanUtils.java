@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.annimon.stream.Optional;
 import com.google.common.collect.Maps;
-import com.yuckar.infra.common.number.N_humanUtils;
+import com.yuckar.infra.base.utils.N_humanUtils;
 
 public class MxbeanUtils {
 

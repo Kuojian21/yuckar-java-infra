@@ -7,7 +7,7 @@ import org.elasticsearch.client.RestClient;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.yuckar.infra.common.executor.PoolExecutorInfoDefault;
+import com.yuckar.infra.base.executor.PoolExecutorInfoDefault;
 
 public class ElasticsearchInfo extends PoolExecutorInfoDefault<RestClient> {
 	private List<Map<String, Object>> httpHosts = Lists.newArrayList();

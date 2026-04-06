@@ -1,6 +1,6 @@
 package com.yuckar.infra.network.okhttp;
 
-import com.yuckar.infra.common.executor.LazyExecutor;
+import com.yuckar.infra.base.executor.LazyExecutor;
 
 import okhttp3.OkHttpClient;
 

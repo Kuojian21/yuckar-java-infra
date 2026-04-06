@@ -5,7 +5,7 @@ import java.net.URI;
 import org.slf4j.Logger;
 
 import com.annimon.stream.function.BiConsumer;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;

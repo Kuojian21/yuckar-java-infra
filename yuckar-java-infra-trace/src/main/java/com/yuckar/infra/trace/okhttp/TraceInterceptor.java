@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.yuckar.infra.common.trace.TraceIDUtils;
+import com.yuckar.infra.base.trace.TraceIDUtils;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;

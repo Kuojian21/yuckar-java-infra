@@ -11,11 +11,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.annimon.stream.Optional;
 import com.google.common.util.concurrent.Uninterruptibles;
-import com.yuckar.infra.common.bean.simple.Pair;
-import com.yuckar.infra.common.file.utils.FileUtils;
-import com.yuckar.infra.common.utils.RunUtils;
+import com.yuckar.infra.base.bean.simple.Pair;
+import com.yuckar.infra.base.file.utils.FileUtils;
+import com.yuckar.infra.base.utils.RunUtils;
+import com.yuckar.infra.conf.yconfs.utils.YconfsFileUtils;
 import com.yuckar.infra.dlock.AbstractDLock;
-import com.yuckar.infra.register.utils.RegisterFileUtils;
 
 public class FileDLock extends AbstractDLock {
 
@@ -34,7 +34,7 @@ public class FileDLock extends AbstractDLock {
 	public FileDLock(String key, String workspace) {
 		super(key);
 		this.workspace = workspace;
-		this.file = new File(RegisterFileUtils.toFile(this.workspace, key()) + File.separator + "main.lock");
+		this.file = new File(YconfsFileUtils.toFile(this.workspace, key()) + File.separator + "main.lock");
 		FileUtils.createFileIfNoExists(file, "DLock");
 		this.raf = RunUtils.throwing(() -> new RandomAccessFile(file, "rw"));
 		this.channel = raf.getChannel();

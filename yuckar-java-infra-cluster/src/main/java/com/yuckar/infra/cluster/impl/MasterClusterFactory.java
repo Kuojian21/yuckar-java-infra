@@ -6,27 +6,27 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Function;
 import com.annimon.stream.function.ThrowableConsumer;
+import com.yuckar.infra.base.lazy.LazySupplier;
 import com.yuckar.infra.cluster.MasterCluster;
 import com.yuckar.infra.cluster.info.InstanceInfo;
 import com.yuckar.infra.cluster.info.MasterClusterInfo;
 import com.yuckar.infra.cluster.info.MasterInfo;
 import com.yuckar.infra.cluster.utils.InfoObjectEquals;
-import com.yuckar.infra.common.lazy.LazySupplier;
-import com.yuckar.infra.register.Register;
-import com.yuckar.infra.register.RegisterEvent;
-import com.yuckar.infra.register.RegisterListener;
+import com.yuckar.infra.conf.yconfs.Yconfs;
+import com.yuckar.infra.conf.yconfs.YconfsEvent;
+import com.yuckar.infra.conf.yconfs.YconfsListener;
 
 public class MasterClusterFactory {
 
-	public static <R, I, C extends MasterClusterInfo<I>> MasterCluster<R> cluster(Register<C> register, String key,
+	public static <R, I, C extends MasterClusterInfo<I>> MasterCluster<R> cluster(Yconfs<C> yconfs, String key,
 			Function<InstanceInfo<I>, R> mapper, ThrowableConsumer<R, Exception> release) {
-		LazySupplier<C> info = LazySupplier.wrap(() -> register.get(key));
+		LazySupplier<C> info = LazySupplier.wrap(() -> yconfs.get(key));
 		LazySupplier<MasterClusterImpl<R, I, C>> cluster = LazySupplier
 				.wrap(() -> new MasterClusterImpl<R, I, C>(info, mapper, release));
 		Object lock = new Object();
-		register.addListener(key, new RegisterListener<C>() {
+		yconfs.addListener(key, new YconfsListener<C>() {
 			@Override
-			public void onChange(RegisterEvent<C> event) {
+			public void onChange(YconfsEvent<C> event) {
 				synchronized (lock) {
 					MasterClusterInfo<?> oData = (MasterClusterInfo<?>) info.get();
 					info.refresh();

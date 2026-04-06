@@ -1,7 +1,7 @@
 package com.yuckar.infra.dlock.context;
 
-import com.yuckar.infra.common.spi.PkgSpiFactory;
-import com.yuckar.infra.common.utils.StackUtils;
+import com.yuckar.infra.base.spi.PkgSpiFactory;
+import com.yuckar.infra.base.utils.StackUtils;
 
 public class DLockFactory {
 

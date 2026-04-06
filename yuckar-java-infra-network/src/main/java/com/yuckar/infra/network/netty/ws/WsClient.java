@@ -8,7 +8,7 @@ import javax.net.ssl.SSLException;
 import org.slf4j.Logger;
 
 import com.annimon.stream.function.BiConsumer;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 import com.yuckar.infra.network.netty.Netty;
 
 import io.netty.channel.Channel;

@@ -12,7 +12,24 @@
 	<dependencies>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-common</artifactId>
+			<artifactId>yuckar-java-infra-base</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.34</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibeetl</groupId>
+			<artifactId>beetl</artifactId>
+			<version>3.19.2.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jfinal</groupId>
+			<artifactId>enjoy</artifactId>
+			<version>5.2.5</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.python/jython -->
 		<!-- <dependency> <groupId>org.python</groupId> <artifactId>jython</artifactId> 
@@ -22,12 +39,14 @@
 			<groupId>ognl</groupId>
 			<artifactId>ognl</artifactId>
 			<version>3.3.4</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.mvel/mvel2 -->
 		<dependency>
 			<groupId>org.mvel</groupId>
 			<artifactId>mvel2</artifactId>
 			<version>2.4.14.Final</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

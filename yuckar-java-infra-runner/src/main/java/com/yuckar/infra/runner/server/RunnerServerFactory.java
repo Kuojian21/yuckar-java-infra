@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.yuckar.infra.common.spi.SpiFactory;
-import com.yuckar.infra.common.utils.TypeMapperUtils;
+import com.yuckar.infra.base.spi.SpiFactory;
+import com.yuckar.infra.base.utils.TypeMapperUtils;
 import com.yuckar.infra.runner.Runner;
 
 @SuppressWarnings("unchecked")

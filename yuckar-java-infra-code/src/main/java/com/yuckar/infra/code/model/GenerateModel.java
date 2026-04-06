@@ -18,8 +18,8 @@ import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.text.tpl.freemarker.Freemarker;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.script.tpl.freemarker.Freemarker;
 
 public class GenerateModel {
 

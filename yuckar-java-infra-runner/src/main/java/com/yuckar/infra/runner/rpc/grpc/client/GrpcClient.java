@@ -13,15 +13,15 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Maps;
 import io.grpc.MethodDescriptor;
 
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.perf.PerfUtils;
+import com.yuckar.infra.base.utils.N_humanUtils;
+import com.yuckar.infra.base.utils.ProxyUtils;
 import com.yuckar.infra.cluster.Cluster;
 import com.yuckar.infra.cluster.impl.ClusterFactory;
 import com.yuckar.infra.cluster.info.InstanceInfo;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.number.N_humanUtils;
-import com.yuckar.infra.common.perf.utils.PerfUtils;
-import com.yuckar.infra.common.utils.ProxyUtils;
-import com.yuckar.infra.register.group.context.GroupRegisterFactory;
-import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
+import com.yuckar.infra.conf.yconfs.context.YconfsGroupFactory;
+import com.yuckar.infra.conf.yconfs.utils.YconfsNamespaceUtils;
 import com.yuckar.infra.runner.rpc.grpc.info.GrpcInfo;
 import com.yuckar.infra.runner.rpc.grpc.info.GrpcItemInfo;
 
@@ -49,9 +49,9 @@ public class GrpcClient {
 	private final Map<Class<?>, Method> methods;
 
 	public GrpcClient(String key, Class<?> clazz) {
-		this.cluster = ClusterFactory.gcluster(
-				GroupRegisterFactory.getContext().getGroupRegister(GrpcInfo.class, GrpcItemInfo.class),
-				RegisterNamespaceUtils.grpc(key),
+		this.cluster = ClusterFactory.cluster(
+				YconfsGroupFactory.getContext().getYconfsGroup(GrpcInfo.class, GrpcItemInfo.class),
+				YconfsNamespaceUtils.grpc(key),
 				info -> ManagedChannelBuilder.forAddress(((InstanceInfo<GrpcItemInfo>) info).getInfo().getHost(),
 						((InstanceInfo<GrpcItemInfo>) info).getInfo().getPort()).usePlaintext().build(),
 				ManagedChannel::shutdown);

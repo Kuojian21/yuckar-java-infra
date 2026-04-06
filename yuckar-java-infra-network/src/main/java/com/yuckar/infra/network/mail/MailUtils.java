@@ -18,7 +18,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import com.google.common.base.Joiner;
 import com.yuckar.infra.network.mail.MailInfo.AuthInfo;
 
-public class MailUtils {
+class MailUtils {
 
 	public static Session session(MailInfo info) {
 		AuthInfo auth = info.getAuth();

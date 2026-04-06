@@ -5,14 +5,14 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.annimon.stream.function.Function;
 import com.yuckar.infra.cluster.info.InstanceInfo;
-import com.yuckar.infra.cluster.resource.MasterResource;
+import com.yuckar.infra.cluster.yconf.MasterYconf;
 import com.yuckar.infra.storage.db.jdbc.KjdbcHolder;
 import com.yuckar.infra.storage.db.jdbc.KjdbcRepository;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public interface HikariStandbyResource
-		extends MasterResource<NamedParameterJdbcOperations, HikariConfig, HikariStandbyInfo> {
+		extends MasterYconf<NamedParameterJdbcOperations, HikariConfig, HikariStandbyInfo> {
 
 	@Override
 	default Function<InstanceInfo<HikariConfig>, NamedParameterJdbcOperations> mapper() {

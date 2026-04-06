@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 
 import com.annimon.stream.Optional;
 import com.google.common.collect.Maps;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.term.TermHelper;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.term.TermHelper;
 
 import io.netty.bootstrap.AbstractBootstrap;
 import io.netty.bootstrap.Bootstrap;

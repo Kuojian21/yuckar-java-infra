@@ -3,21 +3,21 @@ package com.yuckar.infra.runner.server;
 import java.util.concurrent.ThreadFactory;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.yuckar.infra.common.lazy.LazyRunnable;
-//import com.yuckar.infra.common.hook.HookHelper;
-import com.yuckar.infra.common.lazy.LazySupplier;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.utils.RunUtils;
+import com.yuckar.infra.base.lazy.LazyRunnable;
+import com.yuckar.infra.base.lazy.LazySupplier;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.utils.RunUtils;
 import com.yuckar.infra.dlock.DLock;
 import com.yuckar.infra.dlock.context.DLockFactory;
 import com.yuckar.infra.dlock.utils.DLockNamespaceUtils;
 import com.yuckar.infra.runner.Runner;
-import com.yuckar.infra.server.args.ServerArgs;
+import com.yuckar.infra.runner.RunnerArgs;
 
 public abstract class AbstractRunnerServer<R extends Runner> implements RunnerServer<R> {
 
@@ -25,8 +25,10 @@ public abstract class AbstractRunnerServer<R extends Runner> implements RunnerSe
 			.setDaemon(false).build();
 
 	protected final Logger logger = LoggerUtils.logger(this.getClass());
-	protected final LazySupplier<CommandLine> commandLine = LazySupplier
-			.wrap(() -> ServerArgs.args().options(this.args_prefix(), this.args_options()));
+
+	protected final LazySupplier<CommandLine> commandLine = LazySupplier.wrap(() -> RunUtils.throwing(() -> {
+		return new DefaultParser().parse(this.args_options(), RunnerArgs.args().prefix(this.args_prefix()), true);
+	}));
 	private final LazyRunnable init = LazyRunnable.wrap(AbstractRunnerServer.this::init);
 
 	@Override

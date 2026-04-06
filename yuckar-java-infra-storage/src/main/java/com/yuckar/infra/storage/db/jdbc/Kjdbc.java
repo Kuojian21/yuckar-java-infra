@@ -12,8 +12,8 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.string.StringSubstitutors;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.string.StringSubstitutors;
 import com.yuckar.infra.storage.db.model.KdbIndex;
 import com.yuckar.infra.storage.db.model.KdbModel;
 import com.yuckar.infra.storage.db.model.KdbProperty;
@@ -188,13 +188,26 @@ public interface Kjdbc<T> {
 		return this.select(sqlBuilder, false);
 	}
 
-	int insert(SqlInsertBuilder sqlBuilder);
+	default int insert(SqlInsertBuilder sqlBuilder) {
+		return executeUpdate(sqlBuilder.init(table(), model(), this.holder(true).dialect()).sql(), sqlBuilder.valueMap());
+	}
 
-	List<T> select(SqlSelectBuilder sqlBuilder, boolean master);
+	default List<T> select(SqlSelectBuilder sqlBuilder, boolean master) {
+		return executeQuery(sqlBuilder.init(table(), model(), this.holder(master).dialect()).sql(), sqlBuilder.valueMap(),
+				master);
+	}
 
-	int update(SqlUpdateBuilder sqlBuilder);
+	default int update(SqlUpdateBuilder sqlBuilder) {
+		return executeUpdate(sqlBuilder.init(table(), model(), this.holder(true).dialect()).sql(), sqlBuilder.valueMap());
+	}
 
-	int delete(SqlDeleteBuilder sqlBuilder);
+	default int delete(SqlDeleteBuilder sqlBuilder) {
+		return executeUpdate(sqlBuilder.init(table(), model(), this.holder(true).dialect()).sql(), sqlBuilder.valueMap());
+	}
+
+	int executeUpdate(String sql, Map<String, ?> valueMap);
+
+	List<T> executeQuery(String sql, Map<String, ?> valueMap, boolean master);
 
 	KjdbcHolder holder(boolean master);
 

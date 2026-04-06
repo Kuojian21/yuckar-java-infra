@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
-import com.yuckar.infra.common.executor.LazyExecutor;
+import com.yuckar.infra.base.executor.LazyExecutor;
 
 public class HdfsRepository extends LazyExecutor<FileSystem, Configuration> {
 
@@ -24,14 +24,14 @@ public class HdfsRepository extends LazyExecutor<FileSystem, Configuration> {
 	}
 
 	public FSDataOutputStream create(Path path, boolean overwrite) throws IOException {
-		return super.execute(resource -> {
-			return resource.create(path, overwrite);
+		return super.execute(fs -> {
+			return fs.create(path, overwrite);
 		}, new String[] { "create" });
 	}
 
 	public FSDataInputStream open(Path path) throws IOException {
-		return super.execute(resource -> {
-			return resource.open(path);
+		return super.execute(fs -> {
+			return fs.open(path);
 		}, new String[] { "open" });
 	}
 

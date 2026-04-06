@@ -1,6 +1,6 @@
 package com.yuckar.infra.storage.spy;
 
-import com.yuckar.infra.common.executor.LazyExecutor;
+import com.yuckar.infra.base.executor.LazyExecutor;
 import com.yuckar.infra.storage.utils.SpyUtils;
 
 import net.spy.memcached.MemcachedClient;

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 
 import com.github.shyiko.mysql.binlog.BinaryLogClient;
 import com.github.shyiko.mysql.binlog.BinaryLogClient.LifecycleListener;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 import com.yuckar.infra.runner.binlog.holder.BinlogRunnerHolder;
 
 public class BinlogLifecycleListener implements LifecycleListener {

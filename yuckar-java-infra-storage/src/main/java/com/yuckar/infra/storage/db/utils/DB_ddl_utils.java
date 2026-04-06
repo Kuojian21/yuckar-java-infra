@@ -29,7 +29,7 @@ import com.annimon.stream.Stream;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 import com.yuckar.infra.storage.db.dialect.SqliteDialect;
 import com.yuckar.infra.storage.db.model.KdbColumn;
 import com.yuckar.infra.storage.db.model.KdbDialect;

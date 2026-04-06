@@ -11,9 +11,9 @@ import org.apache.commons.cli.Options;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
-import com.yuckar.infra.common.term.TermHelper;
-import com.yuckar.infra.register.group.context.GroupRegisterFactory;
-import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
+import com.yuckar.infra.base.term.TermHelper;
+import com.yuckar.infra.conf.yconfs.context.YconfsGroupFactory;
+import com.yuckar.infra.conf.yconfs.utils.YconfsNamespaceUtils;
 import com.yuckar.infra.runner.rpc.grpc.GrpcRunner;
 import com.yuckar.infra.runner.rpc.grpc.info.GrpcInfo;
 import com.yuckar.infra.runner.rpc.grpc.info.GrpcItemInfo;
@@ -42,8 +42,8 @@ public class GrpcRunnerServer extends AbstractRunnerServer<GrpcRunner> {
 		Server server = builder.build().start();
 		GrpcItemInfo address = Stream.of(server.getListenSockets()).map(socket -> (InetSocketAddress) socket)
 				.map(socket -> GrpcItemInfo.address(socket.getHostName(), socket.getPort())).toList().get(0);
-		GroupRegisterFactory.getContext(runner.getClass()).getGroupRegister(GrpcInfo.class, GrpcItemInfo.class)
-				.cadd(RegisterNamespaceUtils.grpc(Optional.ofNullable(runner.ID())
+		YconfsGroupFactory.getContext(runner.getClass()).getYconfsGroup(GrpcInfo.class, GrpcItemInfo.class)
+				.cadd(YconfsNamespaceUtils.grpc(Optional.ofNullable(runner.ID())
 						.orElseGet(() -> runner.getClass().getName().replace("$", "_"))), address);
 		TermHelper.addTerm("grpc", () -> {
 			server.shutdown();

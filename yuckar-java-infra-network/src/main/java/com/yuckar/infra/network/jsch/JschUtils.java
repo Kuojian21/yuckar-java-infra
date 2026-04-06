@@ -10,12 +10,12 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 @SuppressWarnings("unchecked")
-public class JschUtils {
+class JschUtils {
 
 	/**
 	 * com.jcraft.jsch.Channel.getChannel(String)
 	 */
-	public static <T extends Channel> T channel(JschBeanInfo<T> info, String channelType) throws JSchException {
+	public static <T extends Channel> T channel(JschBaseInfo<T> info, String channelType) throws JSchException {
 		info.getSshConfig().putIfAbsent("StrictHostKeyChecking", "no");
 		JSch jsch = new JSch();
 		if (StringUtils.isNotEmpty(info.getPrvkey()) && StringUtils.isNotEmpty(info.getPubkey())

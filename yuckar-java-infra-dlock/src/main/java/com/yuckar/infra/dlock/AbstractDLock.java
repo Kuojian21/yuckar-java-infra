@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 
 public abstract class AbstractDLock implements DLock {
 

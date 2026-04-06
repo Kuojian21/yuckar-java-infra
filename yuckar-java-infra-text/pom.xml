@@ -12,29 +12,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-common</artifactId>
+			<artifactId>yuckar-java-infra-base</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.hankcs</groupId>
 			<artifactId>hanlp</artifactId>
 			<version>portable-1.8.6</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>2.3.34</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ibeetl</groupId>
-			<artifactId>beetl</artifactId>
-			<version>3.19.2.RELEASE</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.jfinal</groupId>
-			<artifactId>enjoy</artifactId>
-			<version>5.2.5</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

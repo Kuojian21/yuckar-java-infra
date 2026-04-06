@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import com.google.common.collect.Maps;
-import com.yuckar.infra.common.number.N_humanUtils;
+import com.yuckar.infra.base.utils.N_humanUtils;
 import com.yuckar.infra.monitor.mxbean.holder.RuntimeMxbeanHolder;
 
 public class RuntimeMxbeanHandler extends AbstractMxbeanHandler<RuntimeMXBean, RuntimeMxbeanHolder> {

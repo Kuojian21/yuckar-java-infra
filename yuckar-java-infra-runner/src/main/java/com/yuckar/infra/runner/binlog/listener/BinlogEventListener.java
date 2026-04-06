@@ -21,7 +21,7 @@ import com.github.shyiko.mysql.binlog.event.TableMapEventData;
 import com.github.shyiko.mysql.binlog.event.UpdateRowsEventData;
 import com.github.shyiko.mysql.binlog.event.WriteRowsEventData;
 import com.google.common.collect.Maps;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 import com.yuckar.infra.runner.binlog.BinlogMapper;
 import com.yuckar.infra.runner.binlog.BinlogResolver;
 import com.yuckar.infra.runner.binlog.holder.BinlogRunnerHolder;

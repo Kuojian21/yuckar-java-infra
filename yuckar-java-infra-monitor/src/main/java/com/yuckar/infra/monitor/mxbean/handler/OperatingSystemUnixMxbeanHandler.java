@@ -3,7 +3,7 @@ package com.yuckar.infra.monitor.mxbean.handler;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.yuckar.infra.common.number.N_humanUtils;
+import com.yuckar.infra.base.utils.N_humanUtils;
 import com.yuckar.infra.monitor.mxbean.holder.OperatingSystemUnixMxbeanHolder;
 import com.sun.management.UnixOperatingSystemMXBean;
 

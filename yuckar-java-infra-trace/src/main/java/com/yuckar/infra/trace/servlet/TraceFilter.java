@@ -9,7 +9,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import com.yuckar.infra.common.trace.TraceIDUtils;
+import com.yuckar.infra.base.trace.TraceIDUtils;
 
 public class TraceFilter implements Filter {
 

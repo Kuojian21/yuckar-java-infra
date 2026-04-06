@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import com.annimon.stream.function.Supplier;
 import com.github.shyiko.mysql.binlog.BinaryLogClient;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.conf.yconfs.utils.YconfsNamespaceUtils;
 import com.yuckar.infra.runner.binlog.BinlogRunner;
 import com.yuckar.infra.runner.binlog.info.BinlogStatusInfo;
 import com.yuckar.infra.runner.common.RunnerHolder;
@@ -39,8 +39,8 @@ public class BinlogRunnerHolder extends RunnerHolder<BinlogRunner> {
 				try {
 					Thread.sleep(TimeUnit.MINUTES.toMillis(1));
 					if (inited.get()) {
-						context().getRegister(BinlogStatusInfo.class).set(
-								RegisterNamespaceUtils.binlog(runner.ID() + "/status"),
+						context().getYconfs(BinlogStatusInfo.class).set(
+								YconfsNamespaceUtils.binlog(runner.ID() + "/status"),
 								new Supplier<BinlogStatusInfo>() {
 
 									@Override
@@ -65,8 +65,8 @@ public class BinlogRunnerHolder extends RunnerHolder<BinlogRunner> {
 	}
 
 	public BinlogStatusInfo status() {
-		return context().getRegister(BinlogStatusInfo.class)
-				.get(RegisterNamespaceUtils.binlog(runner().ID() + "/status"));
+		return context().getYconfs(BinlogStatusInfo.class)
+				.get(YconfsNamespaceUtils.binlog(runner().ID() + "/status"));
 	}
 
 	public void status(String binlogFilename, long binlogPosition, String gtidSet) {

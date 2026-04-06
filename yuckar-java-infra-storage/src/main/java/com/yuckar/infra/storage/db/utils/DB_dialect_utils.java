@@ -10,7 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 import com.yuckar.infra.storage.db.model.KdbDialect;
 
 public class DB_dialect_utils {

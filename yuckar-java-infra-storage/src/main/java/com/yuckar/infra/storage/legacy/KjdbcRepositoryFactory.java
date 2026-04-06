@@ -10,16 +10,16 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.annimon.stream.function.Function;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.utils.ProxyUtils;
+import com.yuckar.infra.base.utils.StackUtils;
 import com.yuckar.infra.cluster.Cluster;
 import com.yuckar.infra.cluster.Master;
 import com.yuckar.infra.cluster.impl.ClusterFactory;
 import com.yuckar.infra.cluster.impl.MasterFactory;
 import com.yuckar.infra.cluster.info.ClusterInfo;
 import com.yuckar.infra.cluster.info.MasterInfo;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.utils.StackUtils;
-import com.yuckar.infra.common.utils.ProxyUtils;
-import com.yuckar.infra.register.context.RegisterFactory;
+import com.yuckar.infra.conf.yconfs.context.YconfsFactory;
 import com.yuckar.infra.storage.db.jdbc.Kjdbc;
 import com.yuckar.infra.storage.db.jdbc.KjdbcHolder;
 import com.yuckar.infra.storage.db.jdbc.KjdbcImpl;
@@ -37,7 +37,7 @@ public class KjdbcRepositoryFactory {
 
 	public static <I> NamedParameterJdbcTemplate jdbc(Class<I> clazz, String key, Function<I, DataSource> mapper) {
 		return new NamedParameterJdbcTemplate(mapper.apply(
-				RegisterFactory.getContext(StackUtils.firstBusinessInvokerClassname()).getRegister(clazz).get(key)));
+				YconfsFactory.getContext(StackUtils.firstBusinessInvokerClassname()).getYconfs(clazz).get(key)));
 	}
 
 	public static <T, I, S extends MasterInfo<I>> Kjdbc<T> standby(Class<S> sclazz, Function<I, DataSource> mapper,
@@ -54,7 +54,7 @@ public class KjdbcRepositoryFactory {
 	public static <I, S extends MasterInfo<I>> NamedParameterJdbcTemplate standby(Class<S> sclazz, String key,
 			Function<I, DataSource> mapper) {
 		Master<NamedParameterJdbcOperations> standby = MasterFactory.<NamedParameterJdbcOperations, I, S>master(
-				RegisterFactory.getContext().getRegister(sclazz), key,
+				YconfsFactory.getContext().getYconfs(sclazz), key,
 				info -> new NamedParameterJdbcTemplate(mapper.apply((I) info)), rs -> {
 					DataSource ds = ((NamedParameterJdbcTemplate) rs).getJdbcTemplate().getDataSource();
 					if (ds instanceof Closeable) {
@@ -97,7 +97,7 @@ public class KjdbcRepositoryFactory {
 
 	public static <I, C extends ClusterInfo<I>> Cluster<NamedParameterJdbcTemplate> cluster(Class<C> cclazz, String key,
 			Function<I, DataSource> mapper) {
-		return ClusterFactory.cluster(RegisterFactory.getContext().getRegister(cclazz), key,
+		return ClusterFactory.cluster(YconfsFactory.getContext().getYconfs(cclazz), key,
 				info -> new NamedParameterJdbcTemplate(mapper.apply((I) info.getInfo())), rs -> {
 					DataSource ds = ((NamedParameterJdbcTemplate) rs).getJdbcTemplate().getDataSource();
 					if (ds instanceof Closeable) {

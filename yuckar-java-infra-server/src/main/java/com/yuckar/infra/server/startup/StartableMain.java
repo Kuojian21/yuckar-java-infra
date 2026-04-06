@@ -2,12 +2,12 @@ package com.yuckar.infra.server.startup;
 
 import org.slf4j.Logger;
 
-import com.yuckar.infra.common.args.Args;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.spi.SpiFactory;
-import com.yuckar.infra.common.term.SignalHelper;
-import com.yuckar.infra.common.trace.TraceIDUtils;
-import com.yuckar.infra.server.args.ServerArgs;
+import com.yuckar.infra.base.args.Args;
+import com.yuckar.infra.base.args.MainArgs;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.spi.SpiFactory;
+import com.yuckar.infra.base.term.SignalHelper;
+import com.yuckar.infra.base.trace.TraceIDUtils;
 
 import sun.misc.Signal;
 
@@ -18,7 +18,7 @@ public class StartableMain {
 	public static void main(String[] args) throws Exception {
 		try {
 			TraceIDUtils.generate();
-			ServerArgs.args(Args.of(args));
+			MainArgs.args(Args.of(args));
 			for (Startable startable : SpiFactory.stream(Startable.class).sorted().toList()) {
 				logger.info("The startable:{} will start!!!", startable.getClass().getSimpleName());
 				startable.startup();

@@ -7,8 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.annimon.stream.Stream;
-import com.yuckar.infra.common.term.TermHelper;
-import com.yuckar.infra.register.group.context.GroupRegisterFactory;
+import com.yuckar.infra.base.term.TermHelper;
+import com.yuckar.infra.conf.yconfs.context.YconfsGroupFactory;
 import com.yuckar.infra.runner.rpc.grpc.info.GrpcInfo;
 import com.yuckar.infra.runner.rpc.grpc.info.GrpcItemInfo;
 import com.yuckar.infra.runner.server.AbstractRunnerServer;
@@ -37,7 +37,7 @@ public class Grpc2RunnerServer extends AbstractRunnerServer<Grpc2Runner> {
 			Server server = builder.build().start();
 			GrpcItemInfo address = Stream.of(server.getListenSockets()).map(socket -> (InetSocketAddress) socket)
 					.map(socket -> GrpcItemInfo.address(socket.getHostName(), socket.getPort())).toList().get(0);
-			GroupRegisterFactory.getContext(runner.getClass()).getGroupRegister(GrpcInfo.class, GrpcItemInfo.class)
+			YconfsGroupFactory.getContext(runner.getClass()).getYconfsGroup(GrpcInfo.class, GrpcItemInfo.class)
 					.cadd(runner.ID(), address);
 			TermHelper.addTerm("grpc", () -> {
 				server.shutdown();

@@ -8,15 +8,15 @@ import org.slf4j.Logger;
 
 import com.annimon.stream.Stream;
 import com.google.common.collect.Sets;
-import com.yuckar.infra.common.lazy.LazyRunnable;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.term.TermHelper;
-import com.yuckar.infra.common.thread.pool.KrExecutorService;
-import com.yuckar.infra.common.thread.pool.KrExecutorServiceInfo;
-import com.yuckar.infra.common.thread.pool.KrExecutors;
-import com.yuckar.infra.common.utils.StackUtils;
-import com.yuckar.infra.register.Register;
-import com.yuckar.infra.register.context.RegisterFactory;
+import com.yuckar.infra.base.lazy.LazyRunnable;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.term.TermHelper;
+import com.yuckar.infra.base.thread.KrExecutorService;
+import com.yuckar.infra.base.thread.KrExecutorServiceInfo;
+import com.yuckar.infra.base.thread.KrExecutors;
+import com.yuckar.infra.base.utils.StackUtils;
+import com.yuckar.infra.conf.yconfs.Yconfs;
+import com.yuckar.infra.conf.yconfs.context.YconfsFactory;
 
 public class XLuceneRepository {
 
@@ -27,13 +27,13 @@ public class XLuceneRepository {
 	private final LazyRunnable notify;
 
 	public XLuceneRepository() {
-		Register<Long> register = RegisterFactory.getContext(StackUtils.firstBusinessInvokerClassname())
-				.getRegister(Long.class);
+		Yconfs<Long> yconfs = YconfsFactory.getContext(StackUtils.firstBusinessInvokerClassname())
+				.getYconfs(Long.class);
 		Runnable notifyTask = () -> {
 			try {
 				Stream.of(keys).forEach(key -> {
 					keys.remove(key);
-					register.set(key, System.currentTimeMillis());
+					yconfs.set(key, System.currentTimeMillis());
 				});
 			} catch (Throwable e) {
 				logger.error("", e);

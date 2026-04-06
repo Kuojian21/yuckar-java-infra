@@ -19,11 +19,11 @@ import org.slf4j.Logger;
 
 import com.annimon.stream.Stream;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.hook.HookHelper;
-import com.yuckar.infra.common.lazy.LazySupplier;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.utils.StackUtils;
-import com.yuckar.infra.register.context.RegisterFactory;
+import com.yuckar.infra.base.hook.HookHelper;
+import com.yuckar.infra.base.lazy.LazySupplier;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.utils.StackUtils;
+import com.yuckar.infra.conf.yconfs.context.YconfsFactory;
 
 public class XLucene implements Closeable {
 
@@ -56,7 +56,7 @@ public class XLucene implements Closeable {
 					throw new RuntimeException(e);
 				}
 			});
-			RegisterFactory.getContext(StackUtils.firstBusinessInvokerClassname()).getRegister(Long.class)
+			YconfsFactory.getContext(StackUtils.firstBusinessInvokerClassname()).getYconfs(Long.class)
 					.addListener(key, e -> {
 //						if (is.isInited()) {
 //							IndexSearcher ois = is.get();

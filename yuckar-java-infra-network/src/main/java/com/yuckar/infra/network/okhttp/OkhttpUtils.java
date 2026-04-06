@@ -2,7 +2,7 @@ package com.yuckar.infra.network.okhttp;
 
 import java.util.concurrent.TimeUnit;
 
-import com.yuckar.infra.common.json.ConfigUtils;
+import com.yuckar.infra.base.json.ConfigUtils;
 import com.yuckar.infra.trace.okhttp.TraceInterceptor;
 
 import okhttp3.Dispatcher;

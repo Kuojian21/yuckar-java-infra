@@ -2,7 +2,7 @@ package com.yuckar.infra.storage.db.sql;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.yuckar.infra.common.lazy.LazySupplier;
+import com.yuckar.infra.base.lazy.LazySupplier;
 
 public class SqlDeleteBuilder extends SqlBuilder {
 

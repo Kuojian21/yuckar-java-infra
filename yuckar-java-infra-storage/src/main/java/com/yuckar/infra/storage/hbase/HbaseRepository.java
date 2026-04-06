@@ -21,7 +21,7 @@ import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.executor.LazyExecutor;
+import com.yuckar.infra.base.executor.LazyExecutor;
 
 public class HbaseRepository extends LazyExecutor<Connection, Configuration> {
 
@@ -36,8 +36,8 @@ public class HbaseRepository extends LazyExecutor<Connection, Configuration> {
 	}
 
 	public void create(String table, List<String> familes) throws IOException {
-		super.execute(resource -> {
-			try (Admin admin = resource.getAdmin()) {
+		super.execute(conn -> {
+			try (Admin admin = conn.getAdmin()) {
 				TableDescriptorBuilder builder = TableDescriptorBuilder.newBuilder(TableName.valueOf(table));
 				familes.forEach(family -> {
 					builder.setColumnFamily(ColumnFamilyDescriptorBuilder.of(family));
@@ -49,24 +49,24 @@ public class HbaseRepository extends LazyExecutor<Connection, Configuration> {
 	}
 
 	public void disable(String table) throws IOException {
-		super.execute(resource -> {
-			try (Admin admin = resource.getAdmin()) {
+		super.execute(conn -> {
+			try (Admin admin = conn.getAdmin()) {
 				admin.disableTable(TableName.valueOf(table));
 			}
 		}, new String[] { "disable", table });
 	}
 
 	public void truncate(String table) throws IOException {
-		super.execute(resource -> {
-			try (Admin admin = resource.getAdmin()) {
+		super.execute(conn -> {
+			try (Admin admin = conn.getAdmin()) {
 				admin.truncateTable(TableName.valueOf(table), true);
 			}
 		}, new String[] { "truncate", table });
 	}
 
 	public void delete(String table) throws IOException {
-		super.execute(resource -> {
-			try (Admin admin = resource.getAdmin()) {
+		super.execute(conn -> {
+			try (Admin admin = conn.getAdmin()) {
 				admin.deleteTable(TableName.valueOf(table));
 			}
 		}, new String[] { "delete", table });
@@ -74,8 +74,8 @@ public class HbaseRepository extends LazyExecutor<Connection, Configuration> {
 	}
 
 	public void put(String tablename, List<Put> puts) throws IOException {
-		super.execute(resource -> {
-			try (Table table = resource.getTable(TableName.valueOf(tablename))) {
+		super.execute(conn -> {
+			try (Table table = conn.getTable(TableName.valueOf(tablename))) {
 				table.put(puts);
 			}
 		}, new String[] { "put", tablename });
@@ -91,8 +91,8 @@ public class HbaseRepository extends LazyExecutor<Connection, Configuration> {
 	}
 
 	public Result[] get(String tablename, List<Get> gets) throws IOException {
-		return super.execute(resource -> {
-			try (Table table = resource.getTable(TableName.valueOf(tablename))) {
+		return super.execute(conn -> {
+			try (Table table = conn.getTable(TableName.valueOf(tablename))) {
 				return table.get(gets);
 			}
 		}, new String[] { "get", tablename });
@@ -105,8 +105,8 @@ public class HbaseRepository extends LazyExecutor<Connection, Configuration> {
 	}
 
 	public void delete(String tablename, List<Delete> deletes) throws IOException {
-		super.execute(resource -> {
-			try (Table table = resource.getTable(TableName.valueOf(tablename))) {
+		super.execute(conn -> {
+			try (Table table = conn.getTable(TableName.valueOf(tablename))) {
 				table.delete(deletes);
 			}
 		}, new String[] { "delete", tablename });
@@ -118,8 +118,8 @@ public class HbaseRepository extends LazyExecutor<Connection, Configuration> {
 	}
 
 	public ResultScanner scan(String tablename, Scan scan) throws IOException {
-		return super.execute(resource -> {
-			try (Table table = resource.getTable(TableName.valueOf(tablename))) {
+		return super.execute(conn -> {
+			try (Table table = conn.getTable(TableName.valueOf(tablename))) {
 				return table.getScanner(scan);
 			}
 		}, new String[] { "scan", tablename });

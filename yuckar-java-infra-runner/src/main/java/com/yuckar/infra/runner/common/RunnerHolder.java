@@ -1,19 +1,19 @@
 package com.yuckar.infra.runner.common;
 
-import com.yuckar.infra.register.context.RegisterContext;
-import com.yuckar.infra.register.context.RegisterFactory;
+import com.yuckar.infra.conf.yconfs.context.YconfsContext;
+import com.yuckar.infra.conf.yconfs.context.YconfsFactory;
 import com.yuckar.infra.runner.Runner;
 
 public abstract class RunnerHolder<R extends Runner> implements AutoCloseable {
 
 	private final R runner;
-	private final RegisterContext context;
+	private final YconfsContext context;
 
 	protected RunnerHolder(R runner) {
-		this(runner, RegisterFactory.getContext(runner.getClass()));
+		this(runner, YconfsFactory.getContext(runner.getClass()));
 	}
 
-	protected RunnerHolder(R runner, RegisterContext context) {
+	protected RunnerHolder(R runner, YconfsContext context) {
 		super();
 		this.runner = runner;
 		this.context = context;
@@ -23,7 +23,7 @@ public abstract class RunnerHolder<R extends Runner> implements AutoCloseable {
 		return this.runner;
 	}
 
-	public RegisterContext context() {
+	public YconfsContext context() {
 		return this.context;
 	}
 

@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<module>yuckar-java-infra-common</module>
+		<module>yuckar-java-infra-base</module>
 		<module>yuckar-java-infra-crypto</module>
 		<module>yuckar-java-infra-network</module>
 		<module>yuckar-java-infra-storage</module>
@@ -18,7 +18,7 @@
 		<module>yuckar-java-infra-dlock</module>
 		<module>yuckar-java-infra-pom</module>
 		<module>yuckar-java-infra-monitor</module>
-		<module>yuckar-java-infra-register</module>
+		<module>yuckar-java-infra-conf</module>
 		<module>yuckar-java-infra-cluster</module>
 		<module>yuckar-java-infra-code</module>
 		<module>yuckar-java-infra-server</module>
@@ -36,7 +36,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>yuckar-java-infra</groupId>
-				<artifactId>yuckar-java-infra-common</artifactId>
+				<artifactId>yuckar-java-infra-base</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
@@ -91,7 +91,7 @@
 			</dependency>
 			<dependency>
 				<groupId>yuckar-java-infra</groupId>
-				<artifactId>yuckar-java-infra-register</artifactId>
+				<artifactId>yuckar-java-infra-conf</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 
 import com.annimon.stream.function.Supplier;
 import com.annimon.stream.function.ThrowableConsumer;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 
 public class Instance<R> implements Supplier<R>, AutoCloseable {
 

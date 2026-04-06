@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 
 import com.annimon.stream.IntStream;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 

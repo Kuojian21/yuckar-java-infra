@@ -5,11 +5,11 @@ import java.util.concurrent.ThreadFactory;
 
 import com.github.shyiko.mysql.binlog.BinaryLogClient;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.yuckar.infra.common.lazy.LazySupplier;
-import com.yuckar.infra.common.term.TermHelper;
-import com.yuckar.infra.common.utils.RunUtils;
-import com.yuckar.infra.register.Register;
-import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
+import com.yuckar.infra.base.lazy.LazySupplier;
+import com.yuckar.infra.base.term.TermHelper;
+import com.yuckar.infra.base.utils.RunUtils;
+import com.yuckar.infra.conf.yconfs.Yconfs;
+import com.yuckar.infra.conf.yconfs.utils.YconfsNamespaceUtils;
 import com.yuckar.infra.runner.binlog.BinlogRunner;
 import com.yuckar.infra.runner.binlog.holder.BinlogRunnerHolder;
 import com.yuckar.infra.runner.binlog.info.BinlogLoginInfo;
@@ -26,11 +26,11 @@ public class BinlogRunnerServer extends AbstractRunnerServer<BinlogRunner> {
 	@Override
 	protected void doRun(BinlogRunner runner) throws IllegalStateException, IOException {
 		BinlogRunnerHolder holder = BinlogRunnerHolder.of(runner);
-		String path = RegisterNamespaceUtils.binlog(runner.ID() + "/login");
-		Register<BinlogLoginInfo> register = holder.context().getRegister(BinlogLoginInfo.class);
+		String path = YconfsNamespaceUtils.binlog(runner.ID() + "/login");
+		Yconfs<BinlogLoginInfo> yconfs = holder.context().getYconfs(BinlogLoginInfo.class);
 
 		LazySupplier<BinaryLogClient> client_supplier = LazySupplier.wrap(() -> {
-			BinlogLoginInfo loginInfo = register.get(path);
+			BinlogLoginInfo loginInfo = yconfs.get(path);
 			BinaryLogClient client = new BinaryLogClient(loginInfo.getHostname(), loginInfo.getPort(),
 					loginInfo.getSchema(), loginInfo.getUsername(), loginInfo.getPassword());
 			client.registerLifecycleListener(new BinlogLifecycleListener(holder));
@@ -45,7 +45,7 @@ public class BinlogRunnerServer extends AbstractRunnerServer<BinlogRunner> {
 			THREAD_FACTORY.newThread(() -> RunUtils.catching(() -> client.connect())).start();
 			return client;
 		});
-		register.addListener(path, event -> {
+		yconfs.addListener(path, event -> {
 			client_supplier.refresh(client -> client.disconnect());
 			client_supplier.get();
 		});

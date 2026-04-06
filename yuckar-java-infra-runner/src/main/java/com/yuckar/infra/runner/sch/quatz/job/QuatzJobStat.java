@@ -8,8 +8,8 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.trace.TraceIDUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.trace.TraceIDUtils;
 
 public class QuatzJobStat implements Job {
 

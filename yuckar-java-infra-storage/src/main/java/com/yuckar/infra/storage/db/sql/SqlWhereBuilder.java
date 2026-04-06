@@ -11,7 +11,7 @@ import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.yuckar.infra.common.lazy.LazySupplier;
+import com.yuckar.infra.base.lazy.LazySupplier;
 import com.yuckar.infra.storage.db.model.KdbProperty;
 
 public class SqlWhereBuilder extends SqlBuilder {

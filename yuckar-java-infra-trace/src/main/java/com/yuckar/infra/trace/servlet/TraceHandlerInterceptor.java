@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.yuckar.infra.common.trace.TraceIDUtils;
+import com.yuckar.infra.base.trace.TraceIDUtils;
 
 public class TraceHandlerInterceptor extends HandlerInterceptorAdapter {
 

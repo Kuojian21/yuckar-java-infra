@@ -1,6 +1,6 @@
 package com.yuckar.infra.crypto;
 
-import com.yuckar.infra.common.executor.PoolExecutorInfoDefault;
+import com.yuckar.infra.base.executor.PoolExecutorInfoDefault;
 
 public class CryptoInfo<T> extends PoolExecutorInfoDefault<T> {
 

@@ -8,25 +8,25 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Function;
 import com.annimon.stream.function.ThrowableConsumer;
+import com.yuckar.infra.base.lazy.LazySupplier;
 import com.yuckar.infra.cluster.Cluster;
 import com.yuckar.infra.cluster.info.ClusterInfo;
 import com.yuckar.infra.cluster.info.InstanceInfo;
 import com.yuckar.infra.cluster.utils.InfoObjectEquals;
-import com.yuckar.infra.common.lazy.LazySupplier;
-import com.yuckar.infra.register.Register;
-import com.yuckar.infra.register.RegisterEvent;
-import com.yuckar.infra.register.RegisterListener;
-import com.yuckar.infra.register.group.GroupRegister;
-import com.yuckar.infra.register.group.GroupRegisterListener;
+import com.yuckar.infra.conf.yconfs.Yconfs;
+import com.yuckar.infra.conf.yconfs.YconfsEvent;
+import com.yuckar.infra.conf.yconfs.YconfsGroup;
+import com.yuckar.infra.conf.yconfs.YconfsGroupListener;
+import com.yuckar.infra.conf.yconfs.YconfsListener;
 
 public class ClusterFactory {
 
-	public static <R, I, C extends ClusterInfo<I>> Cluster<R> gcluster(GroupRegister<C, I> gregister, String key,
+	public static <R, I, C extends ClusterInfo<I>> Cluster<R> cluster(YconfsGroup<C, I> yconfsg, String key,
 			Function<InstanceInfo<I>, R> mapper, ThrowableConsumer<R, Exception> release) {
 		LazySupplier<C> info = LazySupplier.wrap(() -> {
-			C cinfo = gregister.get(key);
+			C cinfo = yconfsg.get(key);
 			cinfo.setInstanceInfos(
-					Stream.of(gregister.cget(key)).map(p -> InstanceInfo.of(p.getKey(), p.getValue())).toList());
+					Stream.of(yconfsg.cget(key)).map(p -> InstanceInfo.of(p.getKey(), p.getValue())).toList());
 			return cinfo;
 		});
 		LazySupplier<ClusterImpl<R, I, C>> cluster = LazySupplier
@@ -34,9 +34,9 @@ public class ClusterFactory {
 		final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 		final Lock read = lock.readLock();
 		final Lock write = lock.writeLock();
-		gregister.addListener(key, new RegisterListener<>() {
+		yconfsg.addListener(key, new YconfsListener<>() {
 			@Override
-			public void onChange(RegisterEvent<C> event) {
+			public void onChange(YconfsEvent<C> event) {
 				try {
 					read.lock();
 					info.refresh();
@@ -46,7 +46,7 @@ public class ClusterFactory {
 				}
 			}
 		});
-		gregister.caddListener(key, new GroupRegisterListener() {
+		yconfsg.caddListener(key, new YconfsGroupListener() {
 
 			@Override
 			public void onCreate(String ckey) {
@@ -71,10 +71,10 @@ public class ClusterFactory {
 			}
 
 		});
-		gregister.caddListener(key, new RegisterListener<>() {
+		yconfsg.caddListener(key, new YconfsListener<>() {
 
 			@Override
-			public void onChange(RegisterEvent<I> event) {
+			public void onChange(YconfsEvent<I> event) {
 				try {
 					read.lock();
 					info.refresh();
@@ -93,15 +93,15 @@ public class ClusterFactory {
 		}
 	}
 
-	public static <R, I, C extends ClusterInfo<I>> Cluster<R> cluster(Register<C> register, String key,
+	public static <R, I, C extends ClusterInfo<I>> Cluster<R> cluster(Yconfs<C> yconfs, String key,
 			Function<InstanceInfo<I>, R> mapper, ThrowableConsumer<R, Exception> release) {
-		LazySupplier<C> info = LazySupplier.wrap(() -> register.get(key));
+		LazySupplier<C> info = LazySupplier.wrap(() -> yconfs.get(key));
 		LazySupplier<ClusterImpl<R, I, C>> cluster = LazySupplier
 				.wrap(() -> new ClusterImpl<R, I, C>(info, mapper, release));
 		Object lock = new Object();
-		register.addListener(key, new RegisterListener<>() {
+		yconfs.addListener(key, new YconfsListener<>() {
 			@Override
-			public void onChange(RegisterEvent<C> event) {
+			public void onChange(YconfsEvent<C> event) {
 				synchronized (lock) {
 					ClusterInfo<?> oData = (ClusterInfo<?>) info.get();
 					info.refresh();

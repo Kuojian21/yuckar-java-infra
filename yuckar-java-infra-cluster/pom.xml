@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-register</artifactId>
+			<artifactId>yuckar-java-infra-conf</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -10,6 +10,7 @@ import com.annimon.stream.function.Function;
 import com.annimon.stream.function.ThrowableConsumer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.yuckar.infra.base.lazy.LazySupplier;
 import com.yuckar.infra.cluster.Master;
 import com.yuckar.infra.cluster.MasterCluster;
 import com.yuckar.infra.cluster.info.InstanceInfo;
@@ -17,7 +18,6 @@ import com.yuckar.infra.cluster.info.MasterClusterInfo;
 import com.yuckar.infra.cluster.info.MasterInfo;
 import com.yuckar.infra.cluster.instance.Instance;
 import com.yuckar.infra.cluster.selector.Selector;
-import com.yuckar.infra.common.lazy.LazySupplier;
 
 class MasterClusterImpl<R, I, S extends MasterClusterInfo<I>> implements MasterCluster<R>, AutoCloseable {
 

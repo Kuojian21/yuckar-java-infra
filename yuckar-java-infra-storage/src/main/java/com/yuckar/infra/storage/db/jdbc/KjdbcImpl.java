@@ -1,6 +1,7 @@
 package com.yuckar.infra.storage.db.jdbc;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -8,15 +9,13 @@ import org.apache.commons.text.StringSubstitutor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterUtils;
 
 import com.annimon.stream.Optional;
 import com.google.common.base.Stopwatch;
-import com.yuckar.infra.common.perf.utils.PerfUtils;
+import com.yuckar.infra.base.perf.PerfUtils;
 import com.yuckar.infra.storage.db.model.KdbModel;
-import com.yuckar.infra.storage.db.sql.SqlDeleteBuilder;
-import com.yuckar.infra.storage.db.sql.SqlInsertBuilder;
-import com.yuckar.infra.storage.db.sql.SqlSelectBuilder;
-import com.yuckar.infra.storage.db.sql.SqlUpdateBuilder;
 
 public abstract class KjdbcImpl<T> implements Kjdbc<T> {
 
@@ -39,35 +38,14 @@ public abstract class KjdbcImpl<T> implements Kjdbc<T> {
 	}
 
 	@Override
-	public int insert(SqlInsertBuilder sqlBuilder) {
-		Stopwatch stopwatch = Stopwatch.createStarted();
-		KjdbcHolder holder = this.holder(true);
-		String e_sql = sqlBuilder.init(table(), model(), holder.dialect()).sql();
-		String f_sql = format.replace(e_sql);
-		int rtn;
-		try {
-			logger.debug("insert-sql:{}", f_sql);
-			rtn = holder.jdbcTemplate().update(e_sql, sqlBuilder.valueMap());
-			PerfUtils.perf(PerfUtils.N_storage_kjdbc, holder.tag() + "exec", f_sql).count(1)
-					.micro(stopwatch.elapsed(TimeUnit.MICROSECONDS)).logstash();
-		} catch (DataAccessException e) {
-			PerfUtils.perf(PerfUtils.N_storage_kjdbc, holder.tag() + e.getClass().getSimpleName(), f_sql).count(1)
-					.micro(stopwatch.elapsed(TimeUnit.MICROSECONDS)).logstash();
-			throw e;
-		}
-		return rtn;
-	}
-
-	@Override
-	public List<T> select(SqlSelectBuilder sqlBuilder, boolean master) {
+	public List<T> executeQuery(String sql, Map<String, ?> valueMap, boolean master) {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		KjdbcHolder holder = this.holder(master);
-		String e_sql = sqlBuilder.init(table(), model(), holder.dialect()).sql();
-		String f_sql = format.replace(e_sql);
+		String f_sql = format(sql, valueMap);
 		List<T> rtn;
 		try {
-			logger.debug("select-sql:{}", f_sql);
-			rtn = holder.jdbcTemplate().query(e_sql, sqlBuilder.valueMap(), this.mapper);
+			logger.debug("query-sql:{}", f_sql);
+			rtn = holder.jdbcTemplate().query(sql, valueMap, this.mapper);
 			PerfUtils.perf(PerfUtils.N_storage_kjdbc, holder.tag() + "exec", f_sql, master + "").count(1)
 					.micro(stopwatch.elapsed(TimeUnit.MICROSECONDS)).logstash();
 		} catch (DataAccessException e) {
@@ -79,15 +57,14 @@ public abstract class KjdbcImpl<T> implements Kjdbc<T> {
 	}
 
 	@Override
-	public int update(SqlUpdateBuilder sqlBuilder) {
+	public int executeUpdate(String sql, Map<String, ?> valueMap) {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		KjdbcHolder holder = this.holder(true);
-		String e_sql = sqlBuilder.init(table(), model(), holder.dialect()).sql();
-		String f_sql = format.replace(e_sql);
+		String f_sql = format(sql, valueMap);
 		int rtn;
 		try {
 			logger.debug("update-sql:{}", f_sql);
-			rtn = holder.jdbcTemplate().update(e_sql, sqlBuilder.valueMap());
+			rtn = holder.jdbcTemplate().update(sql, valueMap);
 			PerfUtils.perf(PerfUtils.N_storage_kjdbc, holder.tag() + "exec", f_sql).count(1)
 					.micro(stopwatch.elapsed(TimeUnit.MICROSECONDS)).logstash();
 		} catch (DataAccessException e) {
@@ -98,24 +75,15 @@ public abstract class KjdbcImpl<T> implements Kjdbc<T> {
 		return rtn;
 	}
 
-	@Override
-	public int delete(SqlDeleteBuilder sqlBuilder) {
-		Stopwatch stopwatch = Stopwatch.createStarted();
-		KjdbcHolder holder = this.holder(true);
-		String e_sql = sqlBuilder.init(table(), model(), holder.dialect()).sql();
-		String f_sql = format.replace(e_sql);
-		int rtn;
-		try {
-			logger.debug("delete-sql:{}", f_sql);
-			rtn = holder.jdbcTemplate().update(e_sql, sqlBuilder.valueMap());
-			PerfUtils.perf(PerfUtils.N_storage_kjdbc, holder.tag() + "exec", f_sql).count(1)
-					.micro(stopwatch.elapsed(TimeUnit.MICROSECONDS)).logstash();
-		} catch (DataAccessException e) {
-			PerfUtils.perf(PerfUtils.N_storage_kjdbc, holder.tag() + e.getClass().getSimpleName(), f_sql).count(1)
-					.micro(stopwatch.elapsed(TimeUnit.MICROSECONDS)).logstash();
-			throw e;
+	private String format(String sql, Map<String, ?> valueMap) {
+		String f_sql = sql;
+		if (f_sql.indexOf(":v") >= 0) {
+			f_sql = format.replace(sql);
 		}
-		return rtn;
+		if (f_sql.indexOf(":") >= 0) {
+			f_sql = NamedParameterUtils.substituteNamedParameters(sql, new MapSqlParameterSource(valueMap));
+		}
+		return f_sql;
 	}
 
 	@Override

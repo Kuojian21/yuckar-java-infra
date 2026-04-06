@@ -12,9 +12,9 @@ import org.elasticsearch.client.RestClientBuilder.RequestConfigCallback;
 import org.slf4j.Logger;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.yuckar.infra.common.json.ConfigUtils;
-import com.yuckar.infra.common.json.JsonUtils;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.json.ConfigUtils;
+import com.yuckar.infra.base.json.JsonUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 
 public class ElasticsearchUtils {
 

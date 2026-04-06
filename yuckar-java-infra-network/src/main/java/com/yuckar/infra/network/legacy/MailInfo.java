@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import javax.mail.Service;
 
-import com.yuckar.infra.common.executor.PoolExecutorInfoDefault;
+import com.yuckar.infra.base.executor.PoolExecutorInfoDefault;
 
 public class MailInfo<S extends Service> extends PoolExecutorInfoDefault<MailSessionHolder<S>> {
 	private String protocol;

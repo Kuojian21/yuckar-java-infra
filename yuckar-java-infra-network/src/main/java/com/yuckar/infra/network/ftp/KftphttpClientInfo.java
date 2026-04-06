@@ -2,7 +2,7 @@ package com.yuckar.infra.network.ftp;
 
 import org.apache.commons.net.ftp.FTPHTTPClient;
 
-public class KftphttpClientInfo extends KftpBeanInfo<FTPHTTPClient> {
+public class KftphttpClientInfo extends KftpBaseInfo<FTPHTTPClient> {
 	private String proxyHost;
 	private int proxyPort;
 	private String proxyUser;

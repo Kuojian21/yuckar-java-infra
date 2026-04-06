@@ -8,7 +8,7 @@ import org.quartz.simpl.SimpleJobFactory;
 import org.quartz.spi.JobFactory;
 import org.quartz.spi.TriggerFiredBundle;
 
-import com.yuckar.infra.common.lazy.LazySupplier;
+import com.yuckar.infra.base.lazy.LazySupplier;
 import com.yuckar.infra.runner.sch.quatz.detail.QuatzJobDetail;
 
 public class QuatzJobFactory implements JobFactory {

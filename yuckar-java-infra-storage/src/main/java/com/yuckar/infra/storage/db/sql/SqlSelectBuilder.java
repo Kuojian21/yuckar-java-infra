@@ -8,7 +8,7 @@ import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Supplier;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.lazy.LazySupplier;
+import com.yuckar.infra.base.lazy.LazySupplier;
 import com.yuckar.infra.storage.db.model.KdbProperty;
 
 public class SqlSelectBuilder extends SqlBuilder {

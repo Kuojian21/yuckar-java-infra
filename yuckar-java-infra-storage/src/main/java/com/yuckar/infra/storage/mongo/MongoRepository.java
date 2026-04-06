@@ -11,7 +11,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertManyResult;
 import com.mongodb.client.result.UpdateResult;
-import com.yuckar.infra.common.executor.LazyExecutor;
+import com.yuckar.infra.base.executor.LazyExecutor;
 
 public class MongoRepository extends LazyExecutor<MongoClient, MongoInfo> {
 
@@ -23,15 +23,15 @@ public class MongoRepository extends LazyExecutor<MongoClient, MongoInfo> {
 	 * com.mongodb.client.model.Filters
 	 */
 	public MongoCursor<Document> query(String database, String collection, Bson filter) {
-		return super.execute(resource -> {
-			return resource.getDatabase(database).getCollection(collection).find(filter).iterator();
+		return super.execute(mongo -> {
+			return mongo.getDatabase(database).getCollection(collection).find(filter).iterator();
 		});
 
 	}
 
 	public InsertManyResult insert(String database, String collection, List<Document> documents) {
-		return super.execute(resource -> {
-			InsertManyResult result = resource.getDatabase(database).getCollection(collection).insertMany(documents);
+		return super.execute(mongo -> {
+			InsertManyResult result = mongo.getDatabase(database).getCollection(collection).insertMany(documents);
 			result.getInsertedIds().forEach((i, v) -> {
 				logger.info("{} {}", i, v.asObjectId().getValue());
 			});
@@ -43,8 +43,8 @@ public class MongoRepository extends LazyExecutor<MongoClient, MongoInfo> {
 	 * com.mongodb.client.model.Updates
 	 */
 	public UpdateResult update(String database, String collection, Bson filter, Bson update) {
-		return super.execute(resource -> {
-			UpdateResult result = resource.getDatabase(database).getCollection(collection).updateMany(filter, update);
+		return super.execute(mongo -> {
+			UpdateResult result = mongo.getDatabase(database).getCollection(collection).updateMany(filter, update);
 			return result;
 		});
 	}
@@ -53,8 +53,8 @@ public class MongoRepository extends LazyExecutor<MongoClient, MongoInfo> {
 	 * com.mongodb.client.model.Filters
 	 */
 	public DeleteResult delete(String database, String collection, Bson filter) {
-		return super.execute(resource -> {
-			DeleteResult result = resource.getDatabase(database).getCollection(collection).deleteMany(filter);
+		return super.execute(mongo -> {
+			DeleteResult result = mongo.getDatabase(database).getCollection(collection).deleteMany(filter);
 			return result;
 		});
 	}

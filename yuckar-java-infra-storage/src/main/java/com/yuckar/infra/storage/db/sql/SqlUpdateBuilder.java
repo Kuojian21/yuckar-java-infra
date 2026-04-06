@@ -9,8 +9,8 @@ import org.apache.commons.text.StringSubstitutor;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.common.collect.Lists;
-import com.yuckar.infra.common.bean.simple.Pair;
-import com.yuckar.infra.common.lazy.LazySupplier;
+import com.yuckar.infra.base.bean.simple.Pair;
+import com.yuckar.infra.base.lazy.LazySupplier;
 import com.yuckar.infra.storage.db.model.KdbProperty;
 
 public class SqlUpdateBuilder extends SqlBuilder {

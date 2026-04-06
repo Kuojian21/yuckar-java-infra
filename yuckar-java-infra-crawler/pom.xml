@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-common</artifactId>
+			<artifactId>yuckar-java-infra-base</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/edu.uci.ics/crawler4j -->
 		<dependency>

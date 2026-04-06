@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.yuckar.infra.common.json.JsonUtils;
+import com.yuckar.infra.base.json.JsonUtils;
 
 public class InfoObjectEquals {
 

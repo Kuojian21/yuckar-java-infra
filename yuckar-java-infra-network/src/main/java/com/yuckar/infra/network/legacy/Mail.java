@@ -4,8 +4,8 @@ import javax.mail.MessagingException;
 import javax.mail.Service;
 import org.slf4j.Logger;
 
-import com.yuckar.infra.common.executor.PoolExecutor;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.executor.PoolExecutor;
+import com.yuckar.infra.base.logger.LoggerUtils;
 
 public abstract class Mail<S extends Service> extends PoolExecutor<MailSessionHolder<S>, MailInfo<S>> {
 

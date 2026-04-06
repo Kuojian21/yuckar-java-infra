@@ -4,12 +4,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.annimon.stream.function.Function;
 import com.yuckar.infra.cluster.info.InstanceInfo;
-import com.yuckar.infra.cluster.resource.ClusterResource;
+import com.yuckar.infra.cluster.yconf.ClusterYconf;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public interface HikariClusterResource
-		extends ClusterResource<NamedParameterJdbcTemplate, HikariConfig, HikariClusterInfo> {
+		extends ClusterYconf<NamedParameterJdbcTemplate, HikariConfig, HikariClusterInfo> {
 
 	@Override
 	default Function<InstanceInfo<HikariConfig>, NamedParameterJdbcTemplate> mapper() {

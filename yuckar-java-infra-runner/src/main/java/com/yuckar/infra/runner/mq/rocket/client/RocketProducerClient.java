@@ -10,12 +10,12 @@ import org.apache.rocketmq.client.apis.producer.Producer;
 import org.apache.rocketmq.client.apis.producer.SendReceipt;
 import org.apache.rocketmq.shaded.com.google.common.collect.Maps;
 
-import com.yuckar.infra.common.json.ConfigUtils;
-import com.yuckar.infra.common.lazy.LazySupplier;
-import com.yuckar.infra.common.utils.RunUtils;
-import com.yuckar.infra.register.Register;
-import com.yuckar.infra.register.context.RegisterFactory;
-import com.yuckar.infra.register.utils.RegisterNamespaceUtils;
+import com.yuckar.infra.base.json.ConfigUtils;
+import com.yuckar.infra.base.lazy.LazySupplier;
+import com.yuckar.infra.base.utils.RunUtils;
+import com.yuckar.infra.conf.yconfs.Yconfs;
+import com.yuckar.infra.conf.yconfs.context.YconfsFactory;
+import com.yuckar.infra.conf.yconfs.utils.YconfsNamespaceUtils;
 import com.yuckar.infra.runner.mq.ITopic;
 
 public class RocketProducerClient {
@@ -25,14 +25,14 @@ public class RocketProducerClient {
 
 	public static SendReceipt send(ITopic topic, MessageBuilder builder) {
 		return RunUtils.throwing(() -> producers.computeIfAbsent(topic, k -> LazySupplier.wrap(() -> {
-			Register<Properties> register = RegisterFactory.getContext(topic.getClass()).getRegister(Properties.class);
-			String path = RegisterNamespaceUtils.rocket(topic.topic() + "/producer");
+			Yconfs<Properties> yconfs = YconfsFactory.getContext(topic.getClass()).getYconfs(Properties.class);
+			String path = YconfsNamespaceUtils.rocket(topic.topic() + "/producer");
 			LazySupplier<Producer> producer = LazySupplier
 					.wrap(() -> RunUtils.throwing(() -> provider.newProducerBuilder().setTopics(topic.topic())
 							.setClientConfiguration(
-									ConfigUtils.config(ClientConfiguration.newBuilder(), register.get(path)).build())
+									ConfigUtils.config(ClientConfiguration.newBuilder(), yconfs.get(path)).build())
 							.build()));
-			register.addListener(path, event -> {
+			yconfs.addListener(path, event -> {
 				producer.refresh(p -> p.close());
 			});
 			return producer;

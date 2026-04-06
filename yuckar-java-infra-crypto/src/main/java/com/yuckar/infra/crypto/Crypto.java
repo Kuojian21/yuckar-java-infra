@@ -9,7 +9,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
-import com.yuckar.infra.common.executor.PoolExecutor;
+import com.yuckar.infra.base.executor.PoolExecutor;
 
 public abstract class Crypto<T, I extends CryptoInfo<T>> extends PoolExecutor<T, I> {
 

@@ -11,7 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>yuckar-java-infra</groupId>
-			<artifactId>yuckar-java-infra-common</artifactId>
+			<artifactId>yuckar-java-infra-base</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>

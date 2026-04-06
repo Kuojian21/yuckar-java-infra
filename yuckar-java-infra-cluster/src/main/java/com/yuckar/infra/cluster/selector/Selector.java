@@ -5,8 +5,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.slf4j.Logger;
 
+import com.yuckar.infra.base.logger.LoggerUtils;
 import com.yuckar.infra.cluster.instance.Instance;
-import com.yuckar.infra.common.logger.LoggerUtils;
 
 public interface Selector {
 

@@ -12,9 +12,9 @@ import org.apache.commons.net.ftp.FTPSClient;
 import com.yuckar.infra.network.NetworkException;
 import com.yuckar.infra.network.NetworkRuntimeException;
 
-public class KftpUtils {
+class KftpUtils {
 
-	public static FTPClient ftpClient(KftpBeanInfo<FTPClient> info) throws NetworkException {
+	public static FTPClient ftpClient(KftpClientInfo info) throws NetworkException {
 		try {
 			FTPClient ftp = new FTPClient();
 			ftp.connect(info.getHostname(), info.getPort());

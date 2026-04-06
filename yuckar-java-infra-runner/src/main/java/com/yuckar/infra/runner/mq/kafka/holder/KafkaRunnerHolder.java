@@ -12,12 +12,12 @@ import org.slf4j.Logger;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.common.util.concurrent.Uninterruptibles;
-import com.yuckar.infra.common.json.JsonUtils;
-import com.yuckar.infra.common.lazy.LazyRunnable;
-import com.yuckar.infra.common.logger.LoggerUtils;
-import com.yuckar.infra.common.term.TermHelper;
-import com.yuckar.infra.common.utils.RunUtils;
-import com.yuckar.infra.register.context.RegisterFactory;
+import com.yuckar.infra.base.json.JsonUtils;
+import com.yuckar.infra.base.lazy.LazyRunnable;
+import com.yuckar.infra.base.logger.LoggerUtils;
+import com.yuckar.infra.base.term.TermHelper;
+import com.yuckar.infra.base.utils.RunUtils;
+import com.yuckar.infra.conf.yconfs.context.YconfsFactory;
 import com.yuckar.infra.runner.common.RunnerHolder;
 import com.yuckar.infra.runner.mq.kafka.KafkaRunner;
 
@@ -37,7 +37,7 @@ public class KafkaRunnerHolder extends RunnerHolder<KafkaRunner> {
 	private volatile KafkaConsumer<?, ?> consumer;
 
 	private KafkaRunnerHolder(KafkaRunner runner) {
-		super(runner, RegisterFactory.getContext(runner.topic().getClass()));
+		super(runner, YconfsFactory.getContext(runner.topic().getClass()));
 		this.runnable = LazyRunnable.wrap(() -> {
 			THREAD_FACTORY.newThread(() -> {
 				try {

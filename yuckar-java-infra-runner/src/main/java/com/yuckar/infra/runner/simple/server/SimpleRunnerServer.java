@@ -1,6 +1,6 @@
 package com.yuckar.infra.runner.simple.server;
 
-import com.yuckar.infra.common.term.TermHelper;
+import com.yuckar.infra.base.term.TermHelper;
 import com.yuckar.infra.runner.server.AbstractRunnerServer;
 import com.yuckar.infra.runner.simple.SimpleRunner;
 import com.yuckar.infra.runner.simple.runnable.SimpleRunnerRunnable;

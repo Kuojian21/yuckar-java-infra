@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.annimon.stream.Stream;
 import com.google.common.base.Joiner;
 import com.hankcs.hanlp.HanLP;
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 
 public class PinyinUtils {
 

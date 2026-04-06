@@ -7,7 +7,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.protocol.HttpContext;
 
-import com.yuckar.infra.common.trace.TraceIDUtils;
+import com.yuckar.infra.base.trace.TraceIDUtils;
 
 public class TraceHttpResponseInterceptor implements HttpResponseInterceptor {
 

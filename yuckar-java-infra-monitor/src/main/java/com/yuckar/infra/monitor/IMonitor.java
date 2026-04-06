@@ -2,7 +2,7 @@ package com.yuckar.infra.monitor;
 
 import org.slf4j.Logger;
 
-import com.yuckar.infra.common.logger.LoggerUtils;
+import com.yuckar.infra.base.logger.LoggerUtils;
 
 public interface IMonitor {
 

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.yuckar.infra.common.json.JsonUtils;
+import com.yuckar.infra.base.json.JsonUtils;
 import com.yuckar.infra.monitor.mxbean.IMxbeanHandler;
 import com.yuckar.infra.monitor.mxbean.holder.AbstractMxbeanHolder;
 

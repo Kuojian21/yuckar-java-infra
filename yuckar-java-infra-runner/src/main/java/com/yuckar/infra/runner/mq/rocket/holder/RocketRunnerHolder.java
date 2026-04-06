@@ -2,7 +2,7 @@ package com.yuckar.infra.runner.mq.rocket.holder;
 
 import org.apache.rocketmq.client.apis.consumer.PushConsumer;
 
-import com.yuckar.infra.register.context.RegisterFactory;
+import com.yuckar.infra.conf.yconfs.context.YconfsFactory;
 import com.yuckar.infra.runner.common.RunnerHolder;
 import com.yuckar.infra.runner.mq.rocket.RocketRunner;
 
@@ -15,7 +15,7 @@ public class RocketRunnerHolder extends RunnerHolder<RocketRunner> {
 	private volatile PushConsumer consumer;
 
 	protected RocketRunnerHolder(RocketRunner runner) {
-		super(runner, RegisterFactory.getContext(runner.topic().getClass()));
+		super(runner, YconfsFactory.getContext(runner.topic().getClass()));
 	}
 
 	public void consumer(PushConsumer consumer) {

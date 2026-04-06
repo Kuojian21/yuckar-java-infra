@@ -2,7 +2,7 @@ package com.yuckar.infra.network.ftp;
 
 import org.apache.commons.net.ftp.FTPSClient;
 
-public class KftpsClient extends KftpBean<FTPSClient, KftpsClientInfo> {
+public class KftpsClient extends KftpBase<FTPSClient, KftpsClientInfo> {
 
 	public KftpsClient(KftpsClientInfo info) {
 		super(info);
